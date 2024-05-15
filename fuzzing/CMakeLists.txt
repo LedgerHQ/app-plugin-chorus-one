@@ -51,7 +51,7 @@ set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../src")
 set(ETH_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../ethereum-plugin-sdk")
 
 add_compile_definitions(
-    APPNAME="PluginBoilerplate"
+    APPNAME="OpusPlugin"
 )
 
 add_compile_definitions(

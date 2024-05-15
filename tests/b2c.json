@@ -1,0 +1,16 @@
+{
+    "chainId": 5,
+    "contracts": [
+        {
+            "address": "0x393216dfc16b9115936ffb78c87888817e63f291",
+            "contractName": "OpusPlugin",
+            "selectors": {
+                "0xf9609f08": {
+                    "method": "deposit",
+                    "plugin": "OpusPlugin"
+                }
+            }
+        }
+    ],
+    "name": "OpusPlugin"
+}
