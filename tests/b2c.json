@@ -8,6 +8,10 @@
                 "0xf9609f08": {
                     "method": "deposit",
                     "plugin": "OpusPlugin"
+                },
+                "0x066055e0": {
+                    "method": "burnOsToken",
+                    "plugin": "OpusPlugin"
                 }
             }
         }

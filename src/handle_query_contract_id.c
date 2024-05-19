@@ -9,9 +9,13 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
     // For the first screen, display the plugin name.
     strlcpy(msg->name, APPNAME, msg->nameLength);
 
-    switch context->selectorIndex {
+    switch (context->selectorIndex) {
         case STAKEWISE_DEPOSIT:
             strlcpy(msg->version, "Deposit", msg->versionLength);
+            msg->result = ETH_PLUGIN_RESULT_OK;
+            break;
+        case STAKEWISE_BURN_OS_TOKEN:
+            strlcpy(msg->version, "Burn OS Token", msg->versionLength);
             msg->result = ETH_PLUGIN_RESULT_OK;
             break;
         default:

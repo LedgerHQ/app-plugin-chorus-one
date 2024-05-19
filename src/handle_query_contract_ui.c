@@ -1,7 +1,7 @@
 #include "plugin.h"
-#include "display_address.h"
+#include "utils.h"
 
-static bool deposit_ui(ethQueryContractUI_t *msg, const context_t *context) {
+static bool stakewise_deposit_ui(ethQueryContractUI_t *msg, const context_t *context) {
     strlcpy(msg->title, "Deposit", msg->titleLength);
     const uint8_t *eth_amount;
     uint8_t eth_amount_size;
@@ -36,10 +36,13 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
 
     switch (context->selectorIndex) {
         case STAKEWISE_DEPOSIT:
-            ret = deposit_ui(msg, context);
+            ret = stakewise_deposit_ui(msg, context);
+            break;
+        case STAKEWISE_BURN_OS_TOKEN:
+            ret = stakewise_burn_os_token_ui(msg, context);
             break;
         default:
-            PRINTF("Received an invalid screenIndex\n");
+            PRINTF("Received an invalid selectorIndex\n");
     }
     msg->result = ret ? ETH_PLUGIN_RESULT_OK : ETH_PLUGIN_RESULT_ERROR;
 }

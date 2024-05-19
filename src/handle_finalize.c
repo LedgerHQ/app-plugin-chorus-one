@@ -13,6 +13,10 @@ void handle_finalize(ethPluginFinalize_t *msg) {
                 msg->numScreens += 1;
             }
             break;
+        case STAKEWISE_BURN_OS_TOKEN:
+            msg->numScreens = 1;
+            msg->result = ETH_PLUGIN_RESULT_OK;
+            break;
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

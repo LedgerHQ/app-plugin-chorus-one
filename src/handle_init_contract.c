@@ -44,6 +44,9 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
         case STAKEWISE_DEPOSIT:
             context->next_param = RECEIVER;
             break;
+        case STAKEWISE_BURN_OS_TOKEN:
+            context->next_param = OS_TOKEN_SHARES;
+            break;
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

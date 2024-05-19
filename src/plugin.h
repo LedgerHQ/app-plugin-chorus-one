@@ -27,7 +27,7 @@
 //     - a map named SELECTORS associating each NAME with it's value
 #define SELECTORS_LIST(X)            \
     X(STAKEWISE_DEPOSIT, 0xf9609f08) \
-    X(BOILERPLATE_DUMMY_2, 0x13374242)
+    X(STAKEWISE_BURN_OS_TOKEN, 0x066055e0) 
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -50,9 +50,9 @@ extern const uint32_t SELECTORS[SELECTOR_COUNT];
 typedef enum {
     RECEIVER = 0, // Address
     REFERRER,
-    BENEFICIARY,
-    PATH_OFFSET,
-    PATH_LENGTH,
+    OS_TOKEN_SHARES,
+    // PATH_OFFSET,
+    // PATH_LENGTH,
     UNEXPECTED_PARAMETER,
 } parameter;
 
@@ -63,6 +63,7 @@ typedef struct context_s {
     // For display.
     uint8_t receiver[ADDRESS_LENGTH];
     uint8_t referrer[ADDRESS_LENGTH];
+    uint8_t os_token_shares[INT128_LENGTH];
 
     // uint8_t amount_received[INT256_LENGTH];
     // uint8_t beneficiary[ADDRESS_LENGTH];
@@ -73,9 +74,9 @@ typedef struct context_s {
 
     // For parsing data.
     uint8_t next_param;  // Set to be the next param we expect to parse.
-    uint16_t offset;     // Offset at which the array or struct starts.
-    bool go_to_offset;   // If set, will force the parsing to iterate through parameters until
-                         // `offset` is reached.
+    // uint16_t offset;     // Offset at which the array or struct starts.
+    // bool go_to_offset;   // If set, will force the parsing to iterate through parameters until
+    //                      // `offset` is reached.
 
     // For both parsing and display.
     selector_t selectorIndex;

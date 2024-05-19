@@ -1,13 +1,6 @@
 #include "plugin.h"
 
-// EDIT THIS: Remove this function and write your own handlers!
 static void handle_stakewise_deposit(ethPluginProvideParameter_t *msg, context_t *context) {
-    if (context->go_to_offset) {
-        if (msg->parameterOffset != context->offset + SELECTOR_SIZE) {
-            return;
-        }
-        context->go_to_offset = false;
-    }
     switch (context->next_param) {
         case RECEIVER:
             copy_address(context->receiver, msg->parameter, sizeof(context->receiver));
@@ -15,6 +8,22 @@ static void handle_stakewise_deposit(ethPluginProvideParameter_t *msg, context_t
             break;
         case REFERRER:
             copy_address(context->referrer, msg->parameter, sizeof(context->referrer));
+            context->next_param = UNEXPECTED_PARAMETER;
+            break;
+        // Keep this
+        default:
+            PRINTF("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
+
+static void handle_stakewise_burn_os_token(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case OS_TOKEN_SHARES:
+            // Add +16 because the data is in the last 16 bytes of the parameter.
+            copy_parameter(context->os_token_shares, msg->parameter+16, sizeof(context->os_token_shares));
             context->next_param = UNEXPECTED_PARAMETER;
             break;
         // Keep this
@@ -40,8 +49,15 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     // EDIT THIS: adapt the cases and the names of the functions.
     switch (context->selectorIndex) {
         case STAKEWISE_DEPOSIT:
+            msg->result = ETH_PLUGIN_RESULT_OK;
             handle_stakewise_deposit(msg, context);
             break;
+
+        case STAKEWISE_BURN_OS_TOKEN:
+            msg->result = ETH_PLUGIN_RESULT_OK;
+            handle_stakewise_burn_os_token(msg, context);
+            break;
+
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

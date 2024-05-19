@@ -23,7 +23,6 @@ backend = LedgerCommBackend(Firmware.NANOX)
 
 with backend as bk:
     cli = EthAppClient(bk)
-    # 0xf9609f08 is the function hash of the deposit function.
     deposit_function_hash = bytes.fromhex("f9609f08")
     with cli.set_external_plugin(
         PLUGIN_NAME,
