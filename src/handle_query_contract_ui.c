@@ -18,11 +18,28 @@ static bool stakewise_deposit_ui(ethQueryContractUI_t *msg, const context_t *con
             strlcpy(msg->title, "Receiver", msg->titleLength);
             // Get the string representation of the address stored in `context->receiver`. Put it in
             // `msg->msg`.
-            displayEthAddress(msg, context->receiver);
+            display_eth_address(msg, context->receiver);
             return true;
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            return false;
     }
 }
 
+
+static bool stakewise_burn_os_token_ui(ethQueryContractUI_t *msg, const context_t *context) {
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "OS shares", msg->titleLength);
+            display_uint128_decimal(msg, context->os_token_shares);
+            return true;
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            return false;
+    }
+}
 
 
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
