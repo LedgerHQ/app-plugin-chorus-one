@@ -25,9 +25,11 @@
 // A Xmacro below will create for you:
 //     - an enum named selector_t with every NAME
 //     - a map named SELECTORS associating each NAME with it's value
-#define SELECTORS_LIST(X)            \
-    X(STAKEWISE_DEPOSIT, 0xf9609f08) \
-    X(STAKEWISE_BURN_OS_TOKEN, 0x066055e0) 
+#define SELECTORS_LIST(X)                     \
+    X(STAKEWISE_DEPOSIT, 0xf9609f08)          \
+    X(STAKEWISE_BURN_OS_TOKEN, 0x066055e0)    \
+    X(STAKEWISE_ENTER_EXIT_QUEUE, 0x8ceab9aa) \
+    X(STAKEWISE_CLAIM_EXITED_ASSETS, 0x8697d2c2)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -48,29 +50,28 @@ extern const uint32_t SELECTORS[SELECTOR_COUNT];
 // Enumeration used to parse the smart contract data.
 // EDIT THIS: Adapt the parameter names here.
 typedef enum {
-    RECEIVER = 0, // Address
+    RECEIVER = 0,  // Address
     REFERRER,
     OS_TOKEN_SHARES,
+    VAULT_SHARES,
+    POSITION_TICKET,
+    TIMESTAMP,
+    EXIT_QUEUE_INDEX,
     // PATH_OFFSET,
     // PATH_LENGTH,
     UNEXPECTED_PARAMETER,
 } parameter;
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
-// EDIT THIS: This struct is used by your plugin to save the parameters you parse. You
-// will need to adapt this struct to your plugin.
 typedef struct context_s {
     // For display.
+    // `vault_shares` also used as positionTicket due to size constrains.
+    uint8_t vault_shares[INT256_LENGTH];
     uint8_t receiver[ADDRESS_LENGTH];
     uint8_t referrer[ADDRESS_LENGTH];
     uint8_t os_token_shares[INT128_LENGTH];
-
-    // uint8_t amount_received[INT256_LENGTH];
-    // uint8_t beneficiary[ADDRESS_LENGTH];
-    // uint8_t token_received[ADDRESS_LENGTH];
-    // char ticker[MAX_TICKER_LEN];
-    // uint8_t decimals;
-    // uint8_t token_found;
+    uint8_t timestamp[INT256_LENGTH];
+    uint8_t exit_queue_index[INT256_LENGTH];
 
     // For parsing data.
     uint8_t next_param;  // Set to be the next param we expect to parse.

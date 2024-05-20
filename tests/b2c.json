@@ -12,6 +12,14 @@
                 "0x066055e0": {
                     "method": "burnOsToken",
                     "plugin": "OpusPlugin"
+                },
+                "0x8ceab9aa": {
+                    "method": "enterExitQueue",
+                    "plugin": "OpusPlugin"
+                },
+                "0x8697d2c2": {
+                    "method": "claimExitedAssets",
+                    "plugin": "OpusPlugin"
                 }
             }
         }

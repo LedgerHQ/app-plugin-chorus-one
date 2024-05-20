@@ -8,16 +8,25 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
 
     // For the first screen, display the plugin name.
     strlcpy(msg->name, APPNAME, msg->nameLength);
+    msg->result = ETH_PLUGIN_RESULT_OK;
 
     switch (context->selectorIndex) {
         case STAKEWISE_DEPOSIT:
             strlcpy(msg->version, "Deposit", msg->versionLength);
-            msg->result = ETH_PLUGIN_RESULT_OK;
             break;
+
         case STAKEWISE_BURN_OS_TOKEN:
             strlcpy(msg->version, "Burn OS Token", msg->versionLength);
-            msg->result = ETH_PLUGIN_RESULT_OK;
             break;
+
+        case STAKEWISE_ENTER_EXIT_QUEUE:
+            strlcpy(msg->version, "Enter exit queue", msg->versionLength);
+            break;
+
+        case STAKEWISE_CLAIM_EXITED_ASSETS:
+            strlcpy(msg->version, "Claim exited assets", msg->versionLength);
+            break;
+
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

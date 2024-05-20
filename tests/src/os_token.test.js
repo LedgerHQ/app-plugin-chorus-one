@@ -1,7 +1,5 @@
 import { genericTx, abi, startSimulator } from "./utils.js";
-import { parseEther } from "ethers/lib/utils";
-import { BigNumber } from "ethers";
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import Zemu from "@zondax/zemu";
 import { resolve } from "path";
 

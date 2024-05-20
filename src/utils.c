@@ -24,29 +24,32 @@ void display_eth_address(ethQueryContractUI_t *msg, uint8_t * address) {
     }
 }
 
-void display_uint128_decimal(ethQueryContractUI_t *msg, uint8_t *number) {
-    char buffer[40] = {0};
-    int buffer_index = 39;
+void display_uint_decimal(ethQueryContractUI_t *msg, uint8_t *number, size_t size) {
+    char buffer[80] = {0};
+    int buffer_index = sizeof(buffer) - 1;
     buffer[buffer_index] = '\0';
 
-    uint8_t temp_number[16];
-    memcpy(temp_number, number, 16);
+    uint8_t temp_number[32] = {0};
+    memcpy(temp_number, number, size);
+
     int temp_index;
     uint8_t carry;
+
     do {
         carry = 0;
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < size; i++) {
             uint16_t value = (carry << 8) + temp_number[i];
             temp_number[i] = value / 10;
             carry = value % 10;
         }
         buffer[--buffer_index] = carry + '0';
         
+        // Remove zeros
         temp_index = 0;
-        while (temp_index < 16 && temp_number[temp_index] == 0) {
+        while (temp_index < size && temp_number[temp_index] == 0) {
             temp_index++;
         }
-    } while (temp_index < 16);
+    } while (temp_index < size);
 
     strcpy(msg->msg, &buffer[buffer_index]);
 }
