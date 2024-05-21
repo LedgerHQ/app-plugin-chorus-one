@@ -24,6 +24,10 @@
                 "0x2999ad3f": {
                     "method": "liquidateOsToken",
                     "plugin": "OpusPlugin"
+                },
+                "0x201b9eb5": {
+                    "method": "mintOsToken",
+                    "plugin": "OpusPlugin"
                 }
             }
         }

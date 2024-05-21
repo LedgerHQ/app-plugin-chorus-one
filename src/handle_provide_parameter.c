@@ -84,8 +84,8 @@ static void handle_stakewise_claim_exited_assets(ethPluginProvideParameter_t *ms
     }
 }
 
-static void handle_stakewise_liquidate_os_tokens(ethPluginProvideParameter_t *msg,
-                                                 context_t *context) {
+static void handle_stakewise_liquidate_os_token(ethPluginProvideParameter_t *msg,
+                                                context_t *context) {
     switch (context->next_param) {
         case OS_TOKEN_SHARES:
             copy_parameter(context->vault_shares, msg->parameter, sizeof(context->vault_shares));
@@ -99,6 +99,31 @@ static void handle_stakewise_liquidate_os_tokens(ethPluginProvideParameter_t *ms
 
         case RECEIVER:
             copy_address(context->receiver, msg->parameter, sizeof(context->receiver));
+            context->next_param = UNEXPECTED_PARAMETER;
+            break;
+
+        // Keep this
+        default:
+            PRINTF("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
+static void handle_stakewise_mint_os_token(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case RECEIVER:
+            copy_address(context->receiver, msg->parameter, sizeof(context->receiver));
+            context->next_param = OS_TOKEN_SHARES;
+            break;
+
+        case OS_TOKEN_SHARES:
+            copy_parameter(context->vault_shares, msg->parameter, sizeof(context->vault_shares));
+            context->next_param = REFERRER;
+            break;
+
+        case REFERRER:
+            copy_address(context->referrer, msg->parameter, sizeof(context->referrer));
             context->next_param = UNEXPECTED_PARAMETER;
             break;
 
@@ -140,8 +165,12 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
             handle_stakewise_claim_exited_assets(msg, context);
             break;
 
-        case STAKEWISE_LIQUIDATE_OS_TOKENS:
-            handle_stakewise_liquidate_os_tokens(msg, context);
+        case STAKEWISE_LIQUIDATE_OS_TOKEN:
+            handle_stakewise_liquidate_os_token(msg, context);
+            break;
+
+        case STAKEWISE_MINT_OS_TOKEN:
+            handle_stakewise_mint_os_token(msg, context);
             break;
 
         default:
