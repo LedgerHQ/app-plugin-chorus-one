@@ -1,9 +1,5 @@
-import { abi, runTest, CONTRACT_ADDRESS } from "./utils.js";
-import { ethers, BigNumber } from "ethers";
-
-jest.setTimeout(20000);
-
-const contract = new ethers.Contract(CONTRACT_ADDRESS, abi);
+import { runTest, contract } from "./utils.js";
+import { BigNumber } from "ethers";
 
 runTest("enterExitQueue", "0", async (eth) => {
     const address = await eth.getAddress("44'/60'/0'/0");
