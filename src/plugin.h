@@ -25,11 +25,12 @@
 // A Xmacro below will create for you:
 //     - an enum named selector_t with every NAME
 //     - a map named SELECTORS associating each NAME with it's value
-#define SELECTORS_LIST(X)                     \
-    X(STAKEWISE_DEPOSIT, 0xf9609f08)          \
-    X(STAKEWISE_BURN_OS_TOKEN, 0x066055e0)    \
-    X(STAKEWISE_ENTER_EXIT_QUEUE, 0x8ceab9aa) \
-    X(STAKEWISE_CLAIM_EXITED_ASSETS, 0x8697d2c2)
+#define SELECTORS_LIST(X)                        \
+    X(STAKEWISE_DEPOSIT, 0xf9609f08)             \
+    X(STAKEWISE_BURN_OS_TOKEN, 0x066055e0)       \
+    X(STAKEWISE_ENTER_EXIT_QUEUE, 0x8ceab9aa)    \
+    X(STAKEWISE_CLAIM_EXITED_ASSETS, 0x8697d2c2) \
+    X(STAKEWISE_LIQUIDATE_OS_TOKENS, 0x2999ad3f)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -57,6 +58,7 @@ typedef enum {
     POSITION_TICKET,
     TIMESTAMP,
     EXIT_QUEUE_INDEX,
+    OWNER,
     // PATH_OFFSET,
     // PATH_LENGTH,
     UNEXPECTED_PARAMETER,
@@ -65,9 +67,10 @@ typedef enum {
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
 typedef struct context_s {
     // For display.
-    // `vault_shares` also used as positionTicket due to size constrains.
+    // `vault_shares` also used as `positionTicket` due to size constrains.
     uint8_t vault_shares[INT256_LENGTH];
     uint8_t receiver[ADDRESS_LENGTH];
+    // `referrer` also used as `owner`.
     uint8_t referrer[ADDRESS_LENGTH];
     uint8_t os_token_shares[INT128_LENGTH];
     uint8_t timestamp[INT256_LENGTH];

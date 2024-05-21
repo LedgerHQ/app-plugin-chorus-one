@@ -84,6 +84,32 @@ static void handle_stakewise_claim_exited_assets(ethPluginProvideParameter_t *ms
     }
 }
 
+static void handle_stakewise_liquidate_os_tokens(ethPluginProvideParameter_t *msg,
+                                                 context_t *context) {
+    switch (context->next_param) {
+        case OS_TOKEN_SHARES:
+            copy_parameter(context->vault_shares, msg->parameter, sizeof(context->vault_shares));
+            context->next_param = OWNER;
+            break;
+
+        case OWNER:
+            copy_address(context->referrer, msg->parameter, sizeof(context->referrer));
+            context->next_param = RECEIVER;
+            break;
+
+        case RECEIVER:
+            copy_address(context->receiver, msg->parameter, sizeof(context->receiver));
+            context->next_param = UNEXPECTED_PARAMETER;
+            break;
+
+        // Keep this
+        default:
+            PRINTF("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -112,6 +138,10 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
         case STAKEWISE_CLAIM_EXITED_ASSETS:
             handle_stakewise_claim_exited_assets(msg, context);
+            break;
+
+        case STAKEWISE_LIQUIDATE_OS_TOKENS:
+            handle_stakewise_liquidate_os_tokens(msg, context);
             break;
 
         default:

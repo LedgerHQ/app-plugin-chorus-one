@@ -27,6 +27,10 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             strlcpy(msg->version, "Claim exited assets", msg->versionLength);
             break;
 
+        case STAKEWISE_LIQUIDATE_OS_TOKENS:
+            strlcpy(msg->version, "Liquidate OS Tokens", msg->versionLength);
+            break;
+
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

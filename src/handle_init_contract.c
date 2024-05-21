@@ -57,6 +57,10 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             context->next_param = POSITION_TICKET;
             break;
 
+        case STAKEWISE_LIQUIDATE_OS_TOKENS:
+            context->next_param = OS_TOKEN_SHARES;
+            break;
+
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

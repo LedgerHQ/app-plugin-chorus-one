@@ -92,6 +92,32 @@ static bool stakewise_claim_exited_assets_ui(ethQueryContractUI_t *msg, const co
     }
 }
 
+static bool stakewise_liquidate_os_tokens_ui(ethQueryContractUI_t *msg, const context_t *context) {
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "OsToken shares", msg->titleLength);
+            // Use `vault_shares` to store the os_token_shares, in this function
+            // OsToken shares are 32 bytes.
+            display_uint_decimal(msg, context->vault_shares, 32);
+            return true;
+
+        case 1:
+            strlcpy(msg->title, "Owner", msg->titleLength);
+            display_eth_address(msg, context->referrer);
+            return true;
+
+        case 2:
+            strlcpy(msg->title, "Receiver", msg->titleLength);
+            display_eth_address(msg, context->receiver);
+            return true;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            return false;
+    }
+}
+
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
@@ -116,6 +142,10 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
 
         case STAKEWISE_CLAIM_EXITED_ASSETS:
             ret = stakewise_claim_exited_assets_ui(msg, context);
+            break;
+
+        case STAKEWISE_LIQUIDATE_OS_TOKENS:
+            ret = stakewise_liquidate_os_tokens_ui(msg, context);
             break;
 
         default:
