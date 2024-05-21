@@ -50,6 +50,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             break;
 
         case STAKEWISE_ENTER_EXIT_QUEUE:
+        case STAKEWISE_REDEEM:
             context->next_param = VAULT_SHARES;
             break;
 
@@ -58,6 +59,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             break;
 
         case STAKEWISE_LIQUIDATE_OS_TOKEN:
+        case STAKEWISE_REDEEM_OS_TOKEN:
             context->next_param = OS_TOKEN_SHARES;
             break;
 

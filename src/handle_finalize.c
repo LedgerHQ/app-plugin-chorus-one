@@ -9,6 +9,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
         case STAKEWISE_DEPOSIT:
         case STAKEWISE_ENTER_EXIT_QUEUE:
         case STAKEWISE_MINT_OS_TOKEN:
+        case STAKEWISE_REDEEM:
             msg->numScreens = 1;
             if (memcmp(msg->address, context->receiver, ADDRESS_LENGTH) != 0) {
                 msg->numScreens += 1;
@@ -24,6 +25,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             break;
 
         case STAKEWISE_LIQUIDATE_OS_TOKEN:
+        case STAKEWISE_REDEEM_OS_TOKEN:
             msg->numScreens = 2;
             if (memcmp(msg->address, context->receiver, ADDRESS_LENGTH) != 0) {
                 msg->numScreens += 1;

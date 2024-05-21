@@ -35,8 +35,8 @@ static void handle_stakewise_burn_os_token(ethPluginProvideParameter_t *msg, con
     }
 }
 
-static void handle_stakewise_enter_exit_queue(ethPluginProvideParameter_t *msg,
-                                              context_t *context) {
+static void handle_stakewise_enter_exit_queue_and_redeem(ethPluginProvideParameter_t *msg,
+                                                         context_t *context) {
     switch (context->next_param) {
         case VAULT_SHARES:
             copy_parameter(context->vault_shares, msg->parameter, sizeof(context->vault_shares));
@@ -84,8 +84,8 @@ static void handle_stakewise_claim_exited_assets(ethPluginProvideParameter_t *ms
     }
 }
 
-static void handle_stakewise_liquidate_os_token(ethPluginProvideParameter_t *msg,
-                                                context_t *context) {
+static void handle_stakewise_liquidate_redeem_os_token(ethPluginProvideParameter_t *msg,
+                                                       context_t *context) {
     switch (context->next_param) {
         case OS_TOKEN_SHARES:
             copy_parameter(context->vault_shares, msg->parameter, sizeof(context->vault_shares));
@@ -158,7 +158,8 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
             break;
 
         case STAKEWISE_ENTER_EXIT_QUEUE:
-            handle_stakewise_enter_exit_queue(msg, context);
+        case STAKEWISE_REDEEM:
+            handle_stakewise_enter_exit_queue_and_redeem(msg, context);
             break;
 
         case STAKEWISE_CLAIM_EXITED_ASSETS:
@@ -166,7 +167,8 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
             break;
 
         case STAKEWISE_LIQUIDATE_OS_TOKEN:
-            handle_stakewise_liquidate_os_token(msg, context);
+        case STAKEWISE_REDEEM_OS_TOKEN:
+            handle_stakewise_liquidate_redeem_os_token(msg, context);
             break;
 
         case STAKEWISE_MINT_OS_TOKEN:

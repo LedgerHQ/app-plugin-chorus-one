@@ -28,11 +28,19 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             break;
 
         case STAKEWISE_LIQUIDATE_OS_TOKEN:
-            strlcpy(msg->version, "Liquidate OS Tokens", msg->versionLength);
+            strlcpy(msg->version, "Liquidate OS Token", msg->versionLength);
             break;
 
         case STAKEWISE_MINT_OS_TOKEN:
-            strlcpy(msg->version, "Mint OS Tokens", msg->versionLength);
+            strlcpy(msg->version, "Mint OS Token", msg->versionLength);
+            break;
+
+        case STAKEWISE_REDEEM:
+            strlcpy(msg->version, "Redeem", msg->versionLength);
+            break;
+
+        case STAKEWISE_REDEEM_OS_TOKEN:
+            strlcpy(msg->version, "Redeem OS Token", msg->versionLength);
             break;
 
         default:

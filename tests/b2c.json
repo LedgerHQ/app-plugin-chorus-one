@@ -28,6 +28,14 @@
                 "0x201b9eb5": {
                     "method": "mintOsToken",
                     "plugin": "OpusPlugin"
+                },
+                "0x7bde82f2": {
+                    "method": "redeem",
+                    "plugin": "OpusPlugin"
+                },
+                "0x43e82a79": {
+                    "method": "redeemOsToken",
+                    "plugin": "OpusPlugin"
                 }
             }
         }
