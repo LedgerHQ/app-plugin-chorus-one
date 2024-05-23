@@ -92,7 +92,7 @@ const runTest = async (testName, valueEth, getContractData) => {
                 transactionUploadDelay
             );
 
-            await sim.navigate(snapshotsDir, testName, nav);
+            await sim.navigateAndCompareSnapshots(snapshotsDir, testName, nav);
             await tx;
         } catch (e) {
             console.error(e);
