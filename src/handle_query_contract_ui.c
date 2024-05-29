@@ -23,7 +23,7 @@ static bool stakewise_deposit_ui(ethQueryContractUI_t *msg, const context_t *con
             strlcpy(msg->title, "Receiver", msg->titleLength);
             // Get the string representation of the address stored in `context->receiver`. Put it in
             // `msg->msg`.
-            display_eth_address(msg, context->receiver);
+            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
             return true;
         default:
             PRINTF("Received an invalid screenIndex\n");
@@ -59,7 +59,7 @@ static bool stakewise_enter_exit_queue_ui_and_redeem(ethQueryContractUI_t *msg,
             strlcpy(msg->title, "Receiver", msg->titleLength);
             // Get the string representation of the address stored in `context->receiver`. Put it in
             // `msg->msg`.
-            display_eth_address(msg, context->receiver);
+            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
             return true;
 
         default:
@@ -105,12 +105,12 @@ static bool stakewise_liquidate_redeem_os_token_ui(ethQueryContractUI_t *msg,
 
         case 1:
             strlcpy(msg->title, "Owner", msg->titleLength);
-            display_eth_address(msg, context->referrer);
+            display_first_and_last_bytes(msg, context->referrer, ADDRESS_LENGTH, 3);
             return true;
 
         case 2:
             strlcpy(msg->title, "Receiver", msg->titleLength);
-            display_eth_address(msg, context->receiver);
+            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
             return true;
 
         default:
@@ -131,7 +131,36 @@ static bool stakewise_mint_os_token_ui(ethQueryContractUI_t *msg, const context_
             strlcpy(msg->title, "Receiver", msg->titleLength);
             // Use `vault_shares` to store the os_token_shares, in this function
             // OsToken shares are 32 bytes.
-            display_eth_address(msg, context->receiver);
+            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            return true;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            return false;
+    }
+}
+
+static bool eigenlayer_delegate_to(ethQueryContractUI_t *msg, const context_t *context) {
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "Operator", msg->titleLength);
+            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            return true;
+
+        case 1:
+            strlcpy(msg->title, "Approver Salt", msg->titleLength);
+            display_first_and_last_bytes(msg, context->vault_shares, 32, 3);
+            return true;
+
+        case 2:
+            strlcpy(msg->title, "Expiry", msg->titleLength);
+            display_uint_decimal(msg, context->timestamp, 32);
+            return true;
+
+        case 3:
+            strlcpy(msg->title, "Signature", msg->titleLength);
+            display_first_and_last_bytes(msg, context->exit_queue_index, 32, 3);
             return true;
 
         default:
@@ -175,6 +204,10 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
 
         case STAKEWISE_MINT_OS_TOKEN:
             ret = stakewise_mint_os_token_ui(msg, context);
+            break;
+
+        case EIGENLAYER_DELEGATE_TO:
+            ret = eigenlayer_delegate_to(msg, context);
             break;
 
         default:

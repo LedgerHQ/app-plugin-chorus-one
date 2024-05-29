@@ -1,5 +1,3 @@
-const pluginFolder = "opusplugin";
-
 function serialize_data(pluginName, contractAddress, selector) {
     const len = Buffer.from([pluginName.length]);
     const name = Buffer.from(pluginName);
@@ -10,9 +8,8 @@ function serialize_data(pluginName, contractAddress, selector) {
     return Buffer.concat([len, name, address, methodid]);
 }
 
-import { promises as fs } from "fs";
 // Function to generate the plugin configuration.
-function generate_plugin_config(abi) {
+function generate_plugin_config(abis) {
     // Load the b2c.json file
     const b2c = require("../b2c.json");
 
@@ -43,7 +40,7 @@ function generate_plugin_config(abi) {
             };
         }
         // Add the abi to methods_info
-        methods_info["abi"] = abi;
+        methods_info["abi"] = abis[contract];
         // Add the methods_info to the end result
         res[contractAddress] = methods_info;
     }

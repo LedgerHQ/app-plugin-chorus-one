@@ -32,6 +32,10 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             }
             break;
 
+        case EIGENLAYER_DELEGATE_TO:
+            msg->numScreens = 4;
+            break;
+
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

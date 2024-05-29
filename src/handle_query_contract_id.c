@@ -43,6 +43,10 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             strlcpy(msg->version, "Redeem OS Token", msg->versionLength);
             break;
 
+        case EIGENLAYER_DELEGATE_TO:
+            strlcpy(msg->version, "Delegate to", msg->versionLength);
+            break;
+
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

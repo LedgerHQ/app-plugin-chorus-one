@@ -38,6 +38,16 @@
                     "plugin": "OpusPlugin"
                 }
             }
+        },
+        {
+            "address": "0x39053d51b77dc0d36036fc1fcc8cb819df8ef37a",
+            "contractName": "Eigenlayer",
+            "selectors": {
+                "0xeea9064b": {
+                    "method": "delegateTo",
+                    "plugin": "OpusPlugin"
+                }
+            }
         }
     ],
     "name": "OpusPlugin"

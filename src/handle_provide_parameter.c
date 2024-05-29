@@ -135,6 +135,58 @@ static void handle_stakewise_mint_os_token(ethPluginProvideParameter_t *msg, con
     }
 }
 
+static void handle_eigenlayer_delegate_to(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case OPERATOR:
+            copy_address(context->receiver, msg->parameter, sizeof(context->receiver));
+            context->next_param = OFFSET_1;
+            break;
+
+        case OFFSET_1:
+            context->next_param = APPROVER_SALT;
+            break;
+
+        case APPROVER_SALT:
+            copy_parameter(context->vault_shares, msg->parameter, sizeof(context->vault_shares));
+            context->next_param = OFFSET_2;
+            break;
+
+        case OFFSET_2:
+            context->next_param = EXPIRY;
+            break;
+
+        case EXPIRY:
+            copy_parameter(context->timestamp, msg->parameter, sizeof(context->timestamp));
+            context->next_param = ARRAY_LEN;
+            break;
+
+        case ARRAY_LEN:
+            context->next_param = SIGNATURE_1;
+            break;
+
+        case SIGNATURE_1:
+            copy_parameter(context->exit_queue_index, msg->parameter, 3);
+            context->next_param = SIGNATURE_2;
+            break;
+
+        case SIGNATURE_2:
+            copy_parameter(context->exit_queue_index + 29, msg->parameter + 30, 2);
+            context->next_param = SIGNATURE_3;
+            break;
+
+        case SIGNATURE_3:
+            copy_parameter(context->exit_queue_index + 31, msg->parameter, 1);
+            context->next_param = UNEXPECTED_PARAMETER;
+            break;
+
+        // Keep this
+        default:
+            semihosted_printf("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -173,6 +225,10 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
         case STAKEWISE_MINT_OS_TOKEN:
             handle_stakewise_mint_os_token(msg, context);
+            break;
+
+        case EIGENLAYER_DELEGATE_TO:
+            handle_eigenlayer_delegate_to(msg, context);
             break;
 
         default:

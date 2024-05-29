@@ -5,7 +5,6 @@ import Eth from "@ledgerhq/hw-app-eth";
 import { generate_plugin_config } from "./generate_plugin_config";
 import Zemu from "@zondax/zemu";
 
-const zeroAddr = "0x0000000000000000000000000000000000000000";
 const snapshotsDir = "OpusPlugin";
 const transactionUploadDelay = 60000;
 
@@ -15,12 +14,25 @@ const NANOX_ETH_PATH = resolve("elfs/ethereum_nanox.elf");
 const NANOS_PLUGIN_PATH = resolve("elfs/plugin_nanos.elf");
 const NANOX_PLUGIN_PATH = resolve("elfs/plugin_nanox.elf");
 
-const CONTRACT_ADDRESS = "0x393216dfc16b9115936ffb78c87888817e63f291";
+const STAKEWISE_CONTRACT_ADDRESS = "0x393216dfc16b9115936ffb78c87888817e63f291";
+const EIGENLAYER_CONTRACT_ADDRESS =
+    "0x39053d51b77dc0d36036fc1fcc8cb819df8ef37a";
 
-const abiPath = resolve("../utils/StakewiseAbi.json");
-const abi = require(abiPath);
+const STAKEWISE_ABI_PATH = resolve("../utils/StakewiseAbi.json");
+const EIGENLAYER_ABI_PATH = resolve("../utils/EigenlayerAbi.json");
 
-const contract = new ethers.Contract(CONTRACT_ADDRESS, abi);
+const stakewiseAbi = require(STAKEWISE_ABI_PATH);
+const eigenlayerAbi = require(EIGENLAYER_ABI_PATH);
+
+const stakewiseContract = new ethers.Contract(
+    STAKEWISE_CONTRACT_ADDRESS,
+    stakewiseAbi
+);
+
+const eigenlayerContract = new ethers.Contract(
+    EIGENLAYER_CONTRACT_ADDRESS,
+    eigenlayerAbi
+);
 
 jest.setTimeout(20000);
 
@@ -50,9 +62,13 @@ const startSimulator = async (sim) => {
     const transport = await sim.getTransport();
     const eth = new Eth(transport);
 
+    let abis = {
+        STAKEWISE_CONTRACT_ADDRESS: stakewiseAbi,
+        EIGENLAYER_CONTRACT_ADDRESS: eigenlayerAbi,
+    };
     eth.setLoadConfig({
         baseURL: null,
-        extraPlugins: generate_plugin_config(abi),
+        extraPlugins: generate_plugin_config(abis),
     });
     return eth;
 };
@@ -62,22 +78,38 @@ const startSimulator = async (sim) => {
  * and instructions to navigate the simulator to the correct screen.
  * @param {String} testName - The name of the test
  * @param {String} valueEth - The value in Eth to send in the transaction
+ * @param {String} contract - The contract to interact with: can be either "stakewise" or "eigenlayer"
  * @param {Function} getContractData - A function that returns the contract data and navigation instructions
  */
-const runTest = async (testName, valueEth, getContractData) => {
+const runTest = async (
+    testName,
+    getContractData,
+    valueEth = "0",
+    contract = "stakewise"
+) => {
     test(testName, async () => {
         const sim = new Zemu(NANOS_ETH_PATH, { OpusPlugin: NANOS_PLUGIN_PATH });
         try {
             let eth = await startSimulator(sim);
             const [data, nav] = await getContractData(eth);
 
+            let contractAddr;
+            if (contract === "stakewise") {
+                contractAddr = STAKEWISE_CONTRACT_ADDRESS;
+            } else if (contract === "eigenlayer") {
+                contractAddr = EIGENLAYER_CONTRACT_ADDRESS;
+            } else {
+                throw new Error(
+                    "Invalid contract specified. Must be 'stakewise' or 'eigenlayer'"
+                );
+            }
             let unsignedTx = {
                 nonce: Number(0),
                 gasLimit: Number(21000),
                 gasPrice: parseUnits("1", "gwei"),
                 value: parseEther(valueEth),
                 chainId: 1,
-                to: CONTRACT_ADDRESS,
+                to: contractAddr,
                 data: data,
             };
 
@@ -104,6 +136,7 @@ const runTest = async (testName, valueEth, getContractData) => {
 };
 
 module.exports = {
-    contract,
+    stakewiseContract,
+    eigenlayerContract,
     runTest,
 };

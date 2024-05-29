@@ -17,6 +17,7 @@ contracts.
 - redeemOsToken(uint256 osTokenShares, address owner, address receiver)
 
 ### Eigenlayer
+- function delegateTo(address _operator, IDelegationManager.SignatureWithExpiry memory _approverSignatureAndExpiry, bytes32 _approverSalt)
 
 ## Testing
 

@@ -33,7 +33,8 @@
     X(STAKEWISE_LIQUIDATE_OS_TOKEN, 0x2999ad3f)  \
     X(STAKEWISE_MINT_OS_TOKEN, 0x201b9eb5)       \
     X(STAKEWISE_REDEEM, 0x7bde82f2)              \
-    X(STAKEWISE_REDEEM_OS_TOKEN, 0x43e82a79)
+    X(STAKEWISE_REDEEM_OS_TOKEN, 0x43e82a79)     \
+    X(EIGENLAYER_DELEGATE_TO, 0xeea9064b)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -62,8 +63,16 @@ typedef enum {
     TIMESTAMP,
     EXIT_QUEUE_INDEX,
     OWNER,
-    // PATH_OFFSET,
-    // PATH_LENGTH,
+    // EIGENLAYER
+    OPERATOR,
+    OFFSET_1,
+    OFFSET_2,
+    ARRAY_LEN,
+    SIGNATURE_1,  // Signature is 65 bytes long. (32 bytes): 1 b
+    SIGNATURE_2,  // Signature is 65 bytes long. (32 bytes)
+    SIGNATURE_3,  // Signature is 65 bytes long. (32 bytes)
+    EXPIRY,
+    APPROVER_SALT,
     UNEXPECTED_PARAMETER,
 } parameter;
 
