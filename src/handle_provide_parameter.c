@@ -187,6 +187,32 @@ static void handle_eigenlayer_delegate_to(ethPluginProvideParameter_t *msg, cont
     }
 }
 
+static void handle_eigenlayer_inc_dec_delegated_shares(ethPluginProvideParameter_t *msg,
+                                                       context_t *context) {
+    switch (context->next_param) {
+        case RECEIVER:
+            copy_address(context->receiver, msg->parameter, sizeof(context->receiver));
+            context->next_param = STRATEGY;
+            break;
+
+        case STRATEGY:
+            copy_address(context->referrer, msg->parameter, sizeof(context->referrer));
+            context->next_param = SHARES;
+            break;
+
+        case SHARES:
+            copy_parameter(context->vault_shares, msg->parameter, sizeof(context->vault_shares));
+            context->next_param = UNEXPECTED_PARAMETER;
+            break;
+
+        // Keep this
+        default:
+            semihosted_printf("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -229,6 +255,11 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
         case EIGENLAYER_DELEGATE_TO:
             handle_eigenlayer_delegate_to(msg, context);
+            break;
+
+        case EIGENLAYER_INCREASE_DELEGATED_SHARES:
+        case EIGENLAYER_DECREASE_DELEGATED_SHARES:
+            handle_eigenlayer_inc_dec_delegated_shares(msg, context);
             break;
 
         default:

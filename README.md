@@ -9,7 +9,7 @@ contracts.
 
 - burnOsToken(uint128 osTokenShares)
 - claimExitedTokens(uint256 positionTicket, uint256 timestamp, uint256 exitQueueIndex)
-- deposit(address receiver, address referer)
+- deposit(address receiver, address referrer)
 - enterExitQueue(uint256 shares, address receiver)
 - liquidateOsToken(uint256 osTokenShares, address owner, address receiver)
 - mintOsToken(address receiver, uint256 osTokenShares, address referrer)
@@ -17,7 +17,10 @@ contracts.
 - redeemOsToken(uint256 osTokenShares, address owner, address receiver)
 
 ### Eigenlayer
-- function delegateTo(address _operator, IDelegationManager.SignatureWithExpiry memory _approverSignatureAndExpiry, bytes32 _approverSalt)
+
+- function delegateTo(address operator, IDelegationManager.SignatureWithExpiry memory approverSignatureAndExpiry, bytes32 approverSalt)
+- function increaseDelegatedShares(address staker, address strategy, uint256 shares)
+- function decreaseDelegatedShares(address staker, address strategy, uint256 shares)
 
 ## Testing
 

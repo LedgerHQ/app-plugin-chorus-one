@@ -25,16 +25,18 @@
 // A Xmacro below will create for you:
 //     - an enum named selector_t with every NAME
 //     - a map named SELECTORS associating each NAME with it's value
-#define SELECTORS_LIST(X)                        \
-    X(STAKEWISE_DEPOSIT, 0xf9609f08)             \
-    X(STAKEWISE_BURN_OS_TOKEN, 0x066055e0)       \
-    X(STAKEWISE_ENTER_EXIT_QUEUE, 0x8ceab9aa)    \
-    X(STAKEWISE_CLAIM_EXITED_ASSETS, 0x8697d2c2) \
-    X(STAKEWISE_LIQUIDATE_OS_TOKEN, 0x2999ad3f)  \
-    X(STAKEWISE_MINT_OS_TOKEN, 0x201b9eb5)       \
-    X(STAKEWISE_REDEEM, 0x7bde82f2)              \
-    X(STAKEWISE_REDEEM_OS_TOKEN, 0x43e82a79)     \
-    X(EIGENLAYER_DELEGATE_TO, 0xeea9064b)
+#define SELECTORS_LIST(X)                               \
+    X(STAKEWISE_DEPOSIT, 0xf9609f08)                    \
+    X(STAKEWISE_BURN_OS_TOKEN, 0x066055e0)              \
+    X(STAKEWISE_ENTER_EXIT_QUEUE, 0x8ceab9aa)           \
+    X(STAKEWISE_CLAIM_EXITED_ASSETS, 0x8697d2c2)        \
+    X(STAKEWISE_LIQUIDATE_OS_TOKEN, 0x2999ad3f)         \
+    X(STAKEWISE_MINT_OS_TOKEN, 0x201b9eb5)              \
+    X(STAKEWISE_REDEEM, 0x7bde82f2)                     \
+    X(STAKEWISE_REDEEM_OS_TOKEN, 0x43e82a79)            \
+    X(EIGENLAYER_DELEGATE_TO, 0xeea9064b)               \
+    X(EIGENLAYER_INCREASE_DELEGATED_SHARES, 0x28a573ae) \
+    X(EIGENLAYER_DECREASE_DELEGATED_SHARES, 0x132d4967)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -73,6 +75,8 @@ typedef enum {
     SIGNATURE_3,  // Signature is 65 bytes long. (32 bytes)
     EXPIRY,
     APPROVER_SALT,
+    STRATEGY,
+    SHARES,
     UNEXPECTED_PARAMETER,
 } parameter;
 

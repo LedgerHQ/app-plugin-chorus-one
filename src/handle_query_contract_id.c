@@ -47,6 +47,14 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             strlcpy(msg->version, "Delegate to", msg->versionLength);
             break;
 
+        case EIGENLAYER_INCREASE_DELEGATED_SHARES:
+            strlcpy(msg->version, "Increase delegated shares", msg->versionLength);
+            break;
+
+        case EIGENLAYER_DECREASE_DELEGATED_SHARES:
+            strlcpy(msg->version, "Decrease delegated shares", msg->versionLength);
+            break;
+
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

@@ -46,6 +46,14 @@
                 "0xeea9064b": {
                     "method": "delegateTo",
                     "plugin": "OpusPlugin"
+                },
+                "0x28a573ae": {
+                    "method": "increaseDelegatedShares",
+                    "plugin": "OpusPlugin"
+                },
+                "0x132d4967": {
+                    "method": "decreaseDelegatedShares",
+                    "plugin": "OpusPlugin"
                 }
             }
         }

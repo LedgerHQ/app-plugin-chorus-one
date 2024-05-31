@@ -71,6 +71,11 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             context->next_param = OPERATOR;
             break;
 
+        case EIGENLAYER_INCREASE_DELEGATED_SHARES:
+        case EIGENLAYER_DECREASE_DELEGATED_SHARES:
+            context->next_param = RECEIVER;
+            break;
+
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

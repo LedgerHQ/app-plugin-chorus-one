@@ -46,8 +46,8 @@ static bool stakewise_burn_os_token_ui(ethQueryContractUI_t *msg, const context_
     }
 }
 
-static bool stakewise_enter_exit_queue_ui_and_redeem(ethQueryContractUI_t *msg,
-                                                     const context_t *context) {
+static bool stakewise_enter_exit_queue_ui_and_redeem_ui(ethQueryContractUI_t *msg,
+                                                        const context_t *context) {
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Vault shares", msg->titleLength);
@@ -141,7 +141,7 @@ static bool stakewise_mint_os_token_ui(ethQueryContractUI_t *msg, const context_
     }
 }
 
-static bool eigenlayer_delegate_to(ethQueryContractUI_t *msg, const context_t *context) {
+static bool eigenlayer_delegate_to_ui(ethQueryContractUI_t *msg, const context_t *context) {
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Operator", msg->titleLength);
@@ -170,6 +170,27 @@ static bool eigenlayer_delegate_to(ethQueryContractUI_t *msg, const context_t *c
     }
 }
 
+static bool eigenlayer_inc_dec_delegated_shares_ui(ethQueryContractUI_t *msg,
+                                                   const context_t *context) {
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "Strategy", msg->titleLength);
+            display_first_and_last_bytes(msg, context->referrer, ADDRESS_LENGTH, 3);
+            return true;
+
+        case 1:
+            strlcpy(msg->title, "Shares", msg->titleLength);
+            display_uint_decimal(msg, context->vault_shares, 32);
+            return true;
+
+        case 2:
+            // If receiver is different from the current address, display the receiver.
+            strlcpy(msg->title, "Receiver", msg->titleLength);
+            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            return true;
+    }
+}
+
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
@@ -190,7 +211,7 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
 
         case STAKEWISE_ENTER_EXIT_QUEUE:
         case STAKEWISE_REDEEM:
-            ret = stakewise_enter_exit_queue_ui_and_redeem(msg, context);
+            ret = stakewise_enter_exit_queue_ui_and_redeem_ui(msg, context);
             break;
 
         case STAKEWISE_CLAIM_EXITED_ASSETS:
@@ -207,7 +228,12 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             break;
 
         case EIGENLAYER_DELEGATE_TO:
-            ret = eigenlayer_delegate_to(msg, context);
+            ret = eigenlayer_delegate_to_ui(msg, context);
+            break;
+
+        case EIGENLAYER_INCREASE_DELEGATED_SHARES:
+        case EIGENLAYER_DECREASE_DELEGATED_SHARES:
+            ret = eigenlayer_inc_dec_delegated_shares_ui(msg, context);
             break;
 
         default:
