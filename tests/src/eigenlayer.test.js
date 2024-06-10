@@ -16,7 +16,6 @@ runTest(
         const { data } =
             await eigenlayerContract.populateTransaction.delegateTo(
                 operator,
-
                 signatureExpiry,
                 approverSalt
             );

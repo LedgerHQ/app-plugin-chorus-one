@@ -2,7 +2,7 @@
     "chainId": 5,
     "contracts": [
         {
-            "address": "0x393216dfc16b9115936ffb78c87888817e63f291",
+            "address": "0xe6d8d8ac54461b1c5ed15740eee322043f696c08",
             "contractName": "OpusPlugin",
             "selectors": {
                 "0xf9609f08": {

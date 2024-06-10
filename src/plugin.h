@@ -94,9 +94,6 @@ typedef struct context_s {
 
     // For parsing data.
     uint8_t next_param;  // Set to be the next param we expect to parse.
-    // uint16_t offset;     // Offset at which the array or struct starts.
-    // bool go_to_offset;   // If set, will force the parsing to iterate through parameters until
-    //                      // `offset` is reached.
 
     // For both parsing and display.
     selector_t selectorIndex;

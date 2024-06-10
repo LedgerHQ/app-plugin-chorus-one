@@ -189,6 +189,7 @@ static bool eigenlayer_inc_dec_delegated_shares_ui(ethQueryContractUI_t *msg,
             display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
             return true;
     }
+    return false;
 }
 
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {

@@ -14,7 +14,7 @@ const NANOX_ETH_PATH = resolve("elfs/ethereum_nanox.elf");
 const NANOS_PLUGIN_PATH = resolve("elfs/plugin_nanos.elf");
 const NANOX_PLUGIN_PATH = resolve("elfs/plugin_nanox.elf");
 
-const STAKEWISE_CONTRACT_ADDRESS = "0x393216dfc16b9115936ffb78c87888817e63f291";
+const STAKEWISE_CONTRACT_ADDRESS = "0xe6d8d8ac54461b1c5ed15740eee322043f696c08";
 const EIGENLAYER_CONTRACT_ADDRESS =
     "0x39053d51b77dc0d36036fc1fcc8cb819df8ef37a";
 
