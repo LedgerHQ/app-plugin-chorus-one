@@ -192,6 +192,65 @@ static bool eigenlayer_inc_dec_delegated_shares_ui(ethQueryContractUI_t *msg,
     return false;
 }
 
+static bool symbiotic_deposit_issue_debt_withdraw_ui(ethQueryContractUI_t *msg,
+                                                     const context_t *context) {
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "Amount", msg->titleLength);
+            display_uint_decimal(msg, context->vault_shares, 32);
+            return true;
+
+        case 1:
+            strlcpy(msg->title, "Recipient", msg->titleLength);
+            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            return true;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            return false;
+    }
+}
+
+static bool symbiotic_deposit_sig_ui(ethQueryContractUI_t *msg, const context_t *context) {
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "Amount", msg->titleLength);
+            display_uint_decimal(msg, context->vault_shares, 32);
+            return true;
+
+        case 1:
+            strlcpy(msg->title, "Deadline", msg->titleLength);
+            display_uint_decimal(msg, context->timestamp, 32);
+            return true;
+
+        case 2:
+            strlcpy(msg->title, "V", msg->titleLength);
+            display_first_and_last_bytes(msg, context->os_token_shares + 15, 0, 1);
+            return true;
+
+        case 3:
+            strlcpy(msg->title, "R", msg->titleLength);
+            display_first_and_last_bytes(msg, context->exit_queue_index, 6, 3);
+            return true;
+
+        case 4:
+            strlcpy(msg->title, "S", msg->titleLength);
+            display_first_and_last_bytes(msg, context->exit_queue_index + 6, 6, 3);
+            return true;
+
+        case 5:
+            strlcpy(msg->title, "Recipient", msg->titleLength);
+            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            return true;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            return false;
+    }
+}
+
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
@@ -235,6 +294,16 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
         case EIGENLAYER_INCREASE_DELEGATED_SHARES:
         case EIGENLAYER_DECREASE_DELEGATED_SHARES:
             ret = eigenlayer_inc_dec_delegated_shares_ui(msg, context);
+            break;
+
+        case SYMBIOTIC_DEPOSIT:
+        case SYMBIOTIC_ISSUE_DEBT:
+        case SYMBIOTIC_WITHDRAW:
+            ret = symbiotic_deposit_issue_debt_withdraw_ui(msg, context);
+            break;
+
+        case SYMBIOTIC_DEPOSIT_SIG:
+            ret = symbiotic_deposit_sig_ui(msg, context);
             break;
 
         default:

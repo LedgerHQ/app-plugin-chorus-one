@@ -17,12 +17,15 @@ const NANOX_PLUGIN_PATH = resolve("elfs/plugin_nanox.elf");
 const STAKEWISE_CONTRACT_ADDRESS = "0xe6d8d8ac54461b1c5ed15740eee322043f696c08";
 const EIGENLAYER_CONTRACT_ADDRESS =
     "0x39053d51b77dc0d36036fc1fcc8cb819df8ef37a";
+const SYMBIOTIC_CONTRACT_ADDRESS = "0xc329400492c6ff2438472d4651ad17389fcb843a";
 
 const STAKEWISE_ABI_PATH = resolve("../utils/StakewiseAbi.json");
 const EIGENLAYER_ABI_PATH = resolve("../utils/EigenlayerAbi.json");
+const SYMBIOTIC_ABI_PATH = resolve("../utils/SymbioticAbi.json");
 
 const stakewiseAbi = require(STAKEWISE_ABI_PATH);
 const eigenlayerAbi = require(EIGENLAYER_ABI_PATH);
+const symbioticAbi = require(SYMBIOTIC_ABI_PATH);
 
 const stakewiseContract = new ethers.Contract(
     STAKEWISE_CONTRACT_ADDRESS,
@@ -32,6 +35,11 @@ const stakewiseContract = new ethers.Contract(
 const eigenlayerContract = new ethers.Contract(
     EIGENLAYER_CONTRACT_ADDRESS,
     eigenlayerAbi
+);
+
+const symbioticContract = new ethers.Contract(
+    SYMBIOTIC_CONTRACT_ADDRESS,
+    symbioticAbi
 );
 
 jest.setTimeout(20000);
@@ -63,8 +71,9 @@ const startSimulator = async (sim) => {
     const eth = new Eth(transport);
 
     let abis = {
-        STAKEWISE_CONTRACT_ADDRESS: stakewiseAbi,
-        EIGENLAYER_CONTRACT_ADDRESS: eigenlayerAbi,
+        [STAKEWISE_CONTRACT_ADDRESS]: stakewiseAbi,
+        [EIGENLAYER_CONTRACT_ADDRESS]: eigenlayerAbi,
+        [SYMBIOTIC_CONTRACT_ADDRESS]: symbioticAbi,
     };
     eth.setLoadConfig({
         baseURL: null,
@@ -98,9 +107,11 @@ const runTest = async (
                 contractAddr = STAKEWISE_CONTRACT_ADDRESS;
             } else if (contract === "eigenlayer") {
                 contractAddr = EIGENLAYER_CONTRACT_ADDRESS;
+            } else if (contract == "symbiotic") {
+                contractAddr = SYMBIOTIC_CONTRACT_ADDRESS;
             } else {
                 throw new Error(
-                    "Invalid contract specified. Must be 'stakewise' or 'eigenlayer'"
+                    "Invalid contract specified. Must be 'stakewise', 'eigenlayer' or 'symbiotic'"
                 );
             }
             let unsignedTx = {
@@ -138,5 +149,6 @@ const runTest = async (
 module.exports = {
     stakewiseContract,
     eigenlayerContract,
+    symbioticContract,
     runTest,
 };

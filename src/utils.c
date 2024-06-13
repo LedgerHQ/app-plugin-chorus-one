@@ -18,6 +18,10 @@ void display_first_and_last_bytes(ethQueryContractUI_t *msg,
         byte_to_hex(next_ptr, data[i]);
         next_ptr += 2;
     }
+    if (first_last_size <= 1) {
+        // Can display just the first byte.
+        return;
+    }
     strcpy(next_ptr, "...");
     next_ptr += 3;
     for (int i = 0; i < first_last_size; ++i) {

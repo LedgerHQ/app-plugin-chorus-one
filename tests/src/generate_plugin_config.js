@@ -40,7 +40,7 @@ function generate_plugin_config(abis) {
             };
         }
         // Add the abi to methods_info
-        methods_info["abi"] = abis[contract];
+        methods_info["abi"] = abis[contractAddress];
         // Add the methods_info to the end result
         res[contractAddress] = methods_info;
     }

@@ -213,6 +213,69 @@ static void handle_eigenlayer_inc_dec_delegated_shares(ethPluginProvideParameter
     }
 }
 
+void handle_symbiotic_deposit_issue_debt_withdraw(ethPluginProvideParameter_t *msg,
+                                                  context_t *context) {
+    switch (context->next_param) {
+        case RECEIVER:
+            copy_address(context->receiver, msg->parameter, sizeof(context->receiver));
+            context->next_param = SHARES;
+            break;
+
+        case SHARES:
+            copy_parameter(context->vault_shares, msg->parameter, sizeof(context->vault_shares));
+            context->next_param = UNEXPECTED_PARAMETER;
+            break;
+
+        // Keep this
+        default:
+            semihosted_printf("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
+void handle_symbiotic_deposit_sig(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case RECEIVER:
+            copy_address(context->receiver, msg->parameter, sizeof(context->receiver));
+            context->next_param = SHARES;
+            break;
+
+        case SHARES:
+            copy_parameter(context->vault_shares, msg->parameter, sizeof(context->vault_shares));
+            context->next_param = DEADLINE;
+            break;
+
+        case DEADLINE:
+            copy_parameter(context->timestamp, msg->parameter, sizeof(context->timestamp));
+            context->next_param = SIGNATURE_1;
+            break;
+
+        case SIGNATURE_1:
+            copy_parameter(context->os_token_shares + 15, msg->parameter + 31, 1);
+            context->next_param = SIGNATURE_2;
+            break;
+
+        case SIGNATURE_2:
+            copy_parameter(context->exit_queue_index, msg->parameter, 3);
+            copy_parameter(context->exit_queue_index + 3, msg->parameter + 29, 3);
+            context->next_param = SIGNATURE_3;
+            break;
+
+        case SIGNATURE_3:
+            copy_parameter(context->exit_queue_index + 6, msg->parameter, 3);
+            copy_parameter(context->exit_queue_index + 9, msg->parameter + 29, 3);
+            context->next_param = UNEXPECTED_PARAMETER;
+            break;
+
+        // Keep this
+        default:
+            semihosted_printf("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -260,6 +323,16 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
         case EIGENLAYER_INCREASE_DELEGATED_SHARES:
         case EIGENLAYER_DECREASE_DELEGATED_SHARES:
             handle_eigenlayer_inc_dec_delegated_shares(msg, context);
+            break;
+
+        case SYMBIOTIC_DEPOSIT:
+        case SYMBIOTIC_ISSUE_DEBT:
+        case SYMBIOTIC_WITHDRAW:
+            handle_symbiotic_deposit_issue_debt_withdraw(msg, context);
+            break;
+
+        case SYMBIOTIC_DEPOSIT_SIG:
+            handle_symbiotic_deposit_sig(msg, context);
             break;
 
         default:

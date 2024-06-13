@@ -42,6 +42,10 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
     // to parse.
     switch (context->selectorIndex) {
         case STAKEWISE_DEPOSIT:
+        case SYMBIOTIC_DEPOSIT:
+        case SYMBIOTIC_DEPOSIT_SIG:
+        case SYMBIOTIC_ISSUE_DEBT:
+        case SYMBIOTIC_WITHDRAW:
             context->next_param = RECEIVER;
             break;
 

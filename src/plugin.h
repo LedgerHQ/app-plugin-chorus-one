@@ -36,7 +36,11 @@
     X(STAKEWISE_REDEEM_OS_TOKEN, 0x43e82a79)            \
     X(EIGENLAYER_DELEGATE_TO, 0xeea9064b)               \
     X(EIGENLAYER_INCREASE_DELEGATED_SHARES, 0x28a573ae) \
-    X(EIGENLAYER_DECREASE_DELEGATED_SHARES, 0x132d4967)
+    X(EIGENLAYER_DECREASE_DELEGATED_SHARES, 0x132d4967) \
+    X(SYMBIOTIC_DEPOSIT, 0x47e7ef24)                    \
+    X(SYMBIOTIC_DEPOSIT_SIG, 0xc5758489)                \
+    X(SYMBIOTIC_ISSUE_DEBT, 0x7715be0b)                 \
+    X(SYMBIOTIC_WITHDRAW, 0xf3fef3a3)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -77,6 +81,8 @@ typedef enum {
     APPROVER_SALT,
     STRATEGY,
     SHARES,
+    // Sybiotic
+    DEADLINE,
     UNEXPECTED_PARAMETER,
 } parameter;
 

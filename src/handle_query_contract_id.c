@@ -12,6 +12,7 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
 
     switch (context->selectorIndex) {
         case STAKEWISE_DEPOSIT:
+        case SYMBIOTIC_DEPOSIT:
             strlcpy(msg->version, "Deposit", msg->versionLength);
             break;
 
@@ -53,6 +54,18 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
 
         case EIGENLAYER_DECREASE_DELEGATED_SHARES:
             strlcpy(msg->version, "Decrease delegated shares", msg->versionLength);
+            break;
+
+        case SYMBIOTIC_DEPOSIT_SIG:
+            strlcpy(msg->version, "Deposit with signature", msg->versionLength);
+            break;
+
+        case SYMBIOTIC_ISSUE_DEBT:
+            strlcpy(msg->version, "Issue debt", msg->versionLength);
+            break;
+
+        case SYMBIOTIC_WITHDRAW:
+            strlcpy(msg->version, "Withdraw", msg->versionLength);
             break;
 
         default:

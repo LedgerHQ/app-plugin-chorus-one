@@ -10,11 +10,11 @@ void handle_finalize(ethPluginFinalize_t *msg) {
         case STAKEWISE_ENTER_EXIT_QUEUE:
         case STAKEWISE_MINT_OS_TOKEN:
         case STAKEWISE_REDEEM:
+        case SYMBIOTIC_DEPOSIT:
+        case SYMBIOTIC_ISSUE_DEBT:
+        case SYMBIOTIC_WITHDRAW:
             msg->numScreens = 1;
-            if (memcmp(msg->address, context->receiver, ADDRESS_LENGTH) != 0) {
-                msg->numScreens += 1;
-            }
-            break;
+            goto add_recipient_screen;
 
         case STAKEWISE_BURN_OS_TOKEN:
             msg->numScreens = 1;
@@ -26,19 +26,20 @@ void handle_finalize(ethPluginFinalize_t *msg) {
 
         case STAKEWISE_LIQUIDATE_OS_TOKEN:
         case STAKEWISE_REDEEM_OS_TOKEN:
+        case EIGENLAYER_INCREASE_DELEGATED_SHARES:
+        case EIGENLAYER_DECREASE_DELEGATED_SHARES:
             msg->numScreens = 2;
-            if (memcmp(msg->address, context->receiver, ADDRESS_LENGTH) != 0) {
-                msg->numScreens += 1;
-            }
-            break;
+            goto add_recipient_screen;
 
         case EIGENLAYER_DELEGATE_TO:
             msg->numScreens = 4;
             break;
 
-        case EIGENLAYER_INCREASE_DELEGATED_SHARES:
-        case EIGENLAYER_DECREASE_DELEGATED_SHARES:
-            msg->numScreens = 2;
+        case SYMBIOTIC_DEPOSIT_SIG:
+            msg->numScreens = 5;
+            goto add_recipient_screen;
+
+        add_recipient_screen:
             if (memcmp(msg->address, context->receiver, ADDRESS_LENGTH) != 0) {
                 msg->numScreens += 1;
             }

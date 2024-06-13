@@ -56,6 +56,28 @@
                     "plugin": "OpusPlugin"
                 }
             }
+        },
+        {
+            "address": "0xc329400492c6ff2438472d4651ad17389fcb843a",
+            "contractName": "Symbiotic",
+            "selectors": {
+                "0x47e7ef24": {
+                    "method": "deposit",
+                    "plugin": "OpusPlugin"
+                },
+                "0xc5758489": {
+                    "method": "deposit_sig",
+                    "plugin": "OpusPlugin"
+                },
+                "0x7715be0b": {
+                    "method": "issueDebt",
+                    "plugin": "OpusPlugin"
+                },
+                "0xf3fef3a3": {
+                    "method": "withdraw",
+                    "plugin": "OpusPlugin"
+                }
+            }
         }
     ],
     "name": "OpusPlugin"
