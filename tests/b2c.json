@@ -7,35 +7,35 @@
             "selectors": {
                 "0xf9609f08": {
                     "method": "deposit",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0x066055e0": {
                     "method": "burnOsToken",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0x8ceab9aa": {
                     "method": "enterExitQueue",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0x8697d2c2": {
                     "method": "claimExitedAssets",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0x2999ad3f": {
                     "method": "liquidateOsToken",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0x201b9eb5": {
                     "method": "mintOsToken",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0x7bde82f2": {
                     "method": "redeem",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0x43e82a79": {
                     "method": "redeemOsToken",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 }
             }
         },
@@ -45,27 +45,27 @@
             "selectors": {
                 "0x60d7faed": {
                     "method": "completeQueuedWithdrawal",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0x0dd8dd02": {
                     "method": "queueWithdrawals",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0xda8be864": {
                     "method": "undelegate",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0xeea9064b": {
                     "method": "delegateTo",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0x28a573ae": {
                     "method": "increaseDelegatedShares",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0x132d4967": {
                     "method": "decreaseDelegatedShares",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 }
             }
         },
@@ -75,22 +75,22 @@
             "selectors": {
                 "0x47e7ef24": {
                     "method": "deposit",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0xc5758489": {
                     "method": "deposit_sig",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0x7715be0b": {
                     "method": "issueDebt",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 },
                 "0xf3fef3a3": {
                     "method": "withdraw",
-                    "plugin": "OpusPlugin"
+                    "plugin": "ChorusPlugin"
                 }
             }
         }
     ],
-    "name": "OpusPlugin"
+    "name": "ChorusPlugin"
 }

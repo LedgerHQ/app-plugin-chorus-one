@@ -5,7 +5,7 @@ import Eth from "@ledgerhq/hw-app-eth";
 import { generate_plugin_config } from "./generate_plugin_config";
 import Zemu from "@zondax/zemu";
 
-const snapshotsDir = "OpusPlugin";
+const snapshotsDir = "ChorusPlugin";
 const transactionUploadDelay = 60000;
 
 const NANOS_ETH_PATH = resolve("elfs/ethereum_nanos.elf");
@@ -97,7 +97,9 @@ const runTest = async (
     contract = "stakewise"
 ) => {
     test(testName, async () => {
-        const sim = new Zemu(NANOS_ETH_PATH, { OpusPlugin: NANOS_PLUGIN_PATH });
+        const sim = new Zemu(NANOS_ETH_PATH, {
+            ChorusPlugin: NANOS_PLUGIN_PATH,
+        });
         try {
             let eth = await startSimulator(sim);
             const [data, nav] = await getContractData(eth);
