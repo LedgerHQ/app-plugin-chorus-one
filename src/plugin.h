@@ -25,21 +25,22 @@
 // A Xmacro below will create for you:
 //     - an enum named selector_t with every NAME
 //     - a map named SELECTORS associating each NAME with it's value
-#define SELECTORS_LIST(X)                               \
-    X(STAKEWISE_DEPOSIT, 0xf9609f08)                    \
-    X(STAKEWISE_BURN_OS_TOKEN, 0x066055e0)              \
-    X(STAKEWISE_ENTER_EXIT_QUEUE, 0x8ceab9aa)           \
-    X(STAKEWISE_CLAIM_EXITED_ASSETS, 0x8697d2c2)        \
-    X(STAKEWISE_LIQUIDATE_OS_TOKEN, 0x2999ad3f)         \
-    X(STAKEWISE_MINT_OS_TOKEN, 0x201b9eb5)              \
-    X(STAKEWISE_REDEEM, 0x7bde82f2)                     \
-    X(STAKEWISE_REDEEM_OS_TOKEN, 0x43e82a79)            \
-    X(EIGENLAYER_DELEGATE_TO, 0xeea9064b)               \
-    X(EIGENLAYER_INCREASE_DELEGATED_SHARES, 0x28a573ae) \
-    X(EIGENLAYER_DECREASE_DELEGATED_SHARES, 0x132d4967) \
-    X(SYMBIOTIC_DEPOSIT, 0x47e7ef24)                    \
-    X(SYMBIOTIC_DEPOSIT_SIG, 0xc5758489)                \
-    X(SYMBIOTIC_ISSUE_DEBT, 0x7715be0b)                 \
+#define SELECTORS_LIST(X)                                \
+    X(STAKEWISE_DEPOSIT, 0xf9609f08)                     \
+    X(STAKEWISE_BURN_OS_TOKEN, 0x066055e0)               \
+    X(STAKEWISE_ENTER_EXIT_QUEUE, 0x8ceab9aa)            \
+    X(STAKEWISE_CLAIM_EXITED_ASSETS, 0x8697d2c2)         \
+    X(STAKEWISE_LIQUIDATE_OS_TOKEN, 0x2999ad3f)          \
+    X(STAKEWISE_MINT_OS_TOKEN, 0x201b9eb5)               \
+    X(STAKEWISE_REDEEM, 0x7bde82f2)                      \
+    X(STAKEWISE_REDEEM_OS_TOKEN, 0x43e82a79)             \
+    X(EIGENLAYER_DELEGATE_TO, 0xeea9064b)                \
+    X(EIGENLAYER_INCREASE_DELEGATED_SHARES, 0x28a573ae)  \
+    X(EIGENLAYER_DECREASE_DELEGATED_SHARES, 0x132d4967)  \
+    X(EIGENLAYER_COMPLETE_QUEUED_WITHDRAWAL, 0x60d7faed) \
+    X(SYMBIOTIC_DEPOSIT, 0x47e7ef24)                     \
+    X(SYMBIOTIC_DEPOSIT_SIG, 0xc5758489)                 \
+    X(SYMBIOTIC_ISSUE_DEBT, 0x7715be0b)                  \
     X(SYMBIOTIC_WITHDRAW, 0xf3fef3a3)
 
 // Xmacro helpers to define the enum and map
@@ -73,13 +74,25 @@ typedef enum {
     OPERATOR,
     OFFSET_1,
     OFFSET_2,
-    ARRAY_LEN,
+    ARRAY_LEN_1,
+    ARRAY_LEN_2,
     SIGNATURE_1,  // Signature is 65 bytes long. (32 bytes): 1 b
     SIGNATURE_2,  // Signature is 65 bytes long. (32 bytes)
     SIGNATURE_3,  // Signature is 65 bytes long. (32 bytes)
     EXPIRY,
     APPROVER_SALT,
     STRATEGY,
+    OFFSET_3,
+    OFFSET_4,
+    ARRAY_LEN_3,
+    DELEGATED_TO,
+    WITHDRAWER,
+    NONCE,
+    START_BLOCK,
+    STRATEGIES,
+    TOKENS,
+    MIDDLEWARE_TIMES_INDEX,
+    RECEIVE_AS_TOKENS,
     SHARES,
     // Sybiotic
     DEADLINE,
@@ -97,6 +110,9 @@ typedef struct context_s {
     uint8_t os_token_shares[INT128_LENGTH];
     uint8_t timestamp[INT256_LENGTH];
     uint8_t exit_queue_index[INT256_LENGTH];
+
+    uint8_t uint32_var[4];
+    uint8_t bool_var;
 
     // For parsing data.
     uint8_t next_param;  // Set to be the next param we expect to parse.

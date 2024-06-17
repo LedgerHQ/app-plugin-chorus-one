@@ -192,6 +192,56 @@ static bool eigenlayer_inc_dec_delegated_shares_ui(ethQueryContractUI_t *msg,
     return false;
 }
 
+static bool engenlayer_complete_queued_withdrawal_ui(ethQueryContractUI_t *msg,
+                                                     const context_t *context) {
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "Staker", msg->titleLength);
+            display_first_and_last_bytes(msg, context->receiver, 6, 3);
+            return true;
+
+        case 1:
+            strlcpy(msg->title, "Delegated To", msg->titleLength);
+            display_first_and_last_bytes(msg, context->receiver + 6, 6, 3);
+            return true;
+
+        case 2:
+            strlcpy(msg->title, "Withdrawer", msg->titleLength);
+            display_first_and_last_bytes(msg, context->receiver + 12, 6, 3);
+            return true;
+
+        case 3:
+            strlcpy(msg->title, "Nonce", msg->titleLength);
+            display_uint_decimal(msg, context->timestamp, sizeof(context->timestamp));
+            return true;
+
+        case 4:
+            strlcpy(msg->title, "Start Block", msg->titleLength);
+            display_uint_decimal(msg, context->uint32_var, sizeof(context->uint32_var));
+            return true;
+
+        case 5:
+            strlcpy(msg->title, "Strategy", msg->titleLength);
+            display_first_and_last_bytes(msg, context->referrer, 6, 3);
+            return true;
+
+        case 6:
+            strlcpy(msg->title, "Shares", msg->titleLength);
+            display_uint_decimal(msg, context->vault_shares, 32);
+            return true;
+
+        case 7:
+            strlcpy(msg->title, "Token", msg->titleLength);
+            display_first_and_last_bytes(msg, context->referrer + 6, 6, 3);
+            return true;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            return false;
+    }
+}
+
 static bool symbiotic_deposit_issue_debt_withdraw_ui(ethQueryContractUI_t *msg,
                                                      const context_t *context) {
     switch (msg->screenIndex) {
@@ -294,6 +344,10 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
         case EIGENLAYER_INCREASE_DELEGATED_SHARES:
         case EIGENLAYER_DECREASE_DELEGATED_SHARES:
             ret = eigenlayer_inc_dec_delegated_shares_ui(msg, context);
+            break;
+
+        case EIGENLAYER_COMPLETE_QUEUED_WITHDRAWAL:
+            ret = engenlayer_complete_queued_withdrawal_ui(msg, context);
             break;
 
         case SYMBIOTIC_DEPOSIT:

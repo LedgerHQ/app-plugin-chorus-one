@@ -31,6 +31,10 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             msg->numScreens = 2;
             goto add_recipient_screen;
 
+        case EIGENLAYER_COMPLETE_QUEUED_WITHDRAWAL:
+            msg->numScreens = 8;
+            break;
+
         case EIGENLAYER_DELEGATE_TO:
             msg->numScreens = 4;
             break;

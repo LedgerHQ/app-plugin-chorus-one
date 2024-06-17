@@ -3,7 +3,7 @@
     "contracts": [
         {
             "address": "0xe6d8d8ac54461b1c5ed15740eee322043f696c08",
-            "contractName": "OpusPlugin",
+            "contractName": "Stakewise",
             "selectors": {
                 "0xf9609f08": {
                     "method": "deposit",
@@ -43,6 +43,18 @@
             "address": "0x39053d51b77dc0d36036fc1fcc8cb819df8ef37a",
             "contractName": "Eigenlayer",
             "selectors": {
+                "0x60d7faed": {
+                    "method": "completeQueuedWithdrawal",
+                    "plugin": "OpusPlugin"
+                },
+                "0x0dd8dd02": {
+                    "method": "queueWithdrawals",
+                    "plugin": "OpusPlugin"
+                },
+                "0xda8be864": {
+                    "method": "undelegate",
+                    "plugin": "OpusPlugin"
+                },
                 "0xeea9064b": {
                     "method": "delegateTo",
                     "plugin": "OpusPlugin"

@@ -157,10 +157,10 @@ static void handle_eigenlayer_delegate_to(ethPluginProvideParameter_t *msg, cont
 
         case EXPIRY:
             copy_parameter(context->timestamp, msg->parameter, sizeof(context->timestamp));
-            context->next_param = ARRAY_LEN;
+            context->next_param = ARRAY_LEN_1;
             break;
 
-        case ARRAY_LEN:
+        case ARRAY_LEN_1:
             context->next_param = SIGNATURE_1;
             break;
 
@@ -203,6 +203,102 @@ static void handle_eigenlayer_inc_dec_delegated_shares(ethPluginProvideParameter
         case SHARES:
             copy_parameter(context->vault_shares, msg->parameter, sizeof(context->vault_shares));
             context->next_param = UNEXPECTED_PARAMETER;
+            break;
+
+        // Keep this
+        default:
+            semihosted_printf("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
+static void handle_eigenlayer_complete_queued_withdrawal(ethPluginProvideParameter_t *msg,
+                                                         context_t *context) {
+    switch (context->next_param) {
+        case OFFSET_1:
+            context->next_param = OFFSET_2;
+            break;
+
+        case OFFSET_2:
+            context->next_param = MIDDLEWARE_TIMES_INDEX;
+            break;
+
+        case MIDDLEWARE_TIMES_INDEX:
+            copy_parameter(context->exit_queue_index,
+                           msg->parameter,
+                           sizeof(context->exit_queue_index));
+            context->next_param = RECEIVE_AS_TOKENS;
+            break;
+
+        case RECEIVE_AS_TOKENS:
+            context->bool_var = msg->parameter[31] & 1;
+            context->next_param = RECEIVER;
+            break;
+
+        case RECEIVER:
+            copy_parameter(context->receiver, msg->parameter + 12, 3);
+            copy_parameter(context->receiver + 3, msg->parameter + 29, 3);
+            context->next_param = DELEGATED_TO;
+            break;
+
+        case DELEGATED_TO:
+            copy_parameter(context->receiver + 6, msg->parameter + 12, 3);
+            copy_parameter(context->receiver + 9, msg->parameter + 29, 3);
+            context->next_param = WITHDRAWER;
+            break;
+
+        case WITHDRAWER:
+            copy_parameter(context->receiver + 12, msg->parameter + 12, 3);
+            copy_parameter(context->receiver + 15, msg->parameter + 29, 3);
+            context->next_param = NONCE;
+            break;
+
+        case NONCE:
+            copy_parameter(context->timestamp, msg->parameter, sizeof(context->timestamp));
+            context->next_param = START_BLOCK;
+            break;
+
+        case START_BLOCK:
+            copy_parameter(context->uint32_var, msg->parameter + 28, sizeof(context->uint32_var));
+            context->next_param = OFFSET_3;
+            break;
+
+        case OFFSET_3:
+            context->next_param = OFFSET_4;
+            break;
+
+        case OFFSET_4:
+            context->next_param = ARRAY_LEN_1;
+            break;
+
+        case ARRAY_LEN_1:
+            context->next_param = STRATEGIES;
+            break;
+
+        case STRATEGIES:
+            copy_parameter(context->referrer, msg->parameter + 12, 3);
+            copy_parameter(context->referrer + 3, msg->parameter + 29, 3);
+            context->next_param = ARRAY_LEN_2;
+            break;
+
+        case ARRAY_LEN_2:
+            context->next_param = SHARES;
+            break;
+
+        case SHARES:
+            copy_parameter(context->vault_shares, msg->parameter, sizeof(context->vault_shares));
+            context->next_param = ARRAY_LEN_3;
+            break;
+
+        case ARRAY_LEN_3:
+            context->next_param = TOKENS;
+            break;
+
+        case TOKENS:
+            copy_parameter(context->referrer + 6, msg->parameter + 12, 3);
+            copy_parameter(context->referrer + 9, msg->parameter + 29, 3);
+            context->next_param = RECEIVE_AS_TOKENS;
             break;
 
         // Keep this
@@ -323,6 +419,10 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
         case EIGENLAYER_INCREASE_DELEGATED_SHARES:
         case EIGENLAYER_DECREASE_DELEGATED_SHARES:
             handle_eigenlayer_inc_dec_delegated_shares(msg, context);
+            break;
+
+        case EIGENLAYER_COMPLETE_QUEUED_WITHDRAWAL:
+            handle_eigenlayer_complete_queued_withdrawal(msg, context);
             break;
 
         case SYMBIOTIC_DEPOSIT:

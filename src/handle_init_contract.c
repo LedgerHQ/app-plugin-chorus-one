@@ -80,6 +80,10 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             context->next_param = RECEIVER;
             break;
 
+        case EIGENLAYER_COMPLETE_QUEUED_WITHDRAWAL:
+            context->next_param = OFFSET_1;
+            break;
+
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

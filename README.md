@@ -21,6 +21,28 @@ contracts.
 - function delegateTo(address operator, IDelegationManager.SignatureWithExpiry memory approverSignatureAndExpiry, bytes32 approverSalt)
 - function increaseDelegatedShares(address staker, address strategy, uint256 shares)
 - function decreaseDelegatedShares(address staker, address strategy, uint256 shares)
+- function completeQueuedWithdrawal(Withdrawal calldata withdrawal, IERC20[] calldata tokens, uint256 middlewareTimesIndex, bool receiveAsTokens)
+
+#### Structs
+
+```solidity
+struct Withdrawal {
+        // The address that originated the Withdrawal
+        address staker;
+        // The address that the staker was delegated to at the time that the Withdrawal was created
+        address delegatedTo;
+        // The address that can complete the Withdrawal + will receive funds when completing the withdrawal
+        address withdrawer;
+        // Nonce used to guarantee that otherwise identical withdrawals have unique hashes
+        uint256 nonce;
+        // Block number when the Withdrawal was created
+        uint32 startBlock;
+        // Array of strategies that the Withdrawal contains
+        IStrategy[] strategies;
+        // Array containing the amount of shares in each Strategy in the `strategies` array
+        uint256[] shares;
+    }
+```
 
 ## Testing
 
