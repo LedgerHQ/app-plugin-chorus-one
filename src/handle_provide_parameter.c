@@ -273,10 +273,10 @@ static void handle_eigenlayer_complete_queued_withdrawal(ethPluginProvideParamet
             break;
 
         case ARRAY_LEN_1:
-            context->next_param = STRATEGIES;
+            context->next_param = STRATEGY;
             break;
 
-        case STRATEGIES:
+        case STRATEGY:
             copy_parameter(context->referrer, msg->parameter + 12, 3);
             copy_parameter(context->referrer + 3, msg->parameter + 29, 3);
             context->next_param = ARRAY_LEN_2;
@@ -304,6 +304,59 @@ static void handle_eigenlayer_complete_queued_withdrawal(ethPluginProvideParamet
         // Keep this
         default:
             semihosted_printf("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
+static void handle_eigenlayer_queue_withdrawal(ethPluginProvideParameter_t *msg,
+                                               context_t *context) {
+    switch (context->next_param) {
+        case OFFSET_1:
+            context->next_param = ARRAY_LEN_1;
+            break;
+
+        case ARRAY_LEN_1:
+            context->next_param = OFFSET_2;
+            break;
+
+        case OFFSET_2:
+            context->next_param = OFFSET_3;
+            break;
+
+        case OFFSET_3:
+            context->next_param = OFFSET_4;
+            break;
+
+        case OFFSET_4:
+            context->next_param = WITHDRAWER;
+            break;
+
+        case WITHDRAWER:
+            context->next_param = ARRAY_LEN_2;
+            copy_address(context->receiver, msg->parameter, sizeof(context->receiver));
+            break;
+
+        case ARRAY_LEN_2:
+            context->next_param = STRATEGY;
+            break;
+
+        case STRATEGY:
+            context->next_param = ARRAY_LEN_3;
+            copy_address(context->referrer, msg->parameter, sizeof(context->referrer));
+            break;
+
+        case ARRAY_LEN_3:
+            context->next_param = SHARES;
+            break;
+
+        case SHARES:
+            context->next_param = UNEXPECTED_PARAMETER;
+            copy_parameter(context->vault_shares, msg->parameter, sizeof(context->vault_shares));
+            break;
+
+        // Keep this
+        default:
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
@@ -423,6 +476,10 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
         case EIGENLAYER_COMPLETE_QUEUED_WITHDRAWAL:
             handle_eigenlayer_complete_queued_withdrawal(msg, context);
+            break;
+
+        case EIGENLAYER_QUEUE_WITHDRAWAL:
+            handle_eigenlayer_queue_withdrawal(msg, context);
             break;
 
         case SYMBIOTIC_DEPOSIT:

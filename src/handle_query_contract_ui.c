@@ -192,7 +192,7 @@ static bool eigenlayer_inc_dec_delegated_shares_ui(ethQueryContractUI_t *msg,
     return false;
 }
 
-static bool engenlayer_complete_queued_withdrawal_ui(ethQueryContractUI_t *msg,
+static bool eigenlayer_complete_queued_withdrawal_ui(ethQueryContractUI_t *msg,
                                                      const context_t *context) {
     switch (msg->screenIndex) {
         case 0:
@@ -233,6 +233,30 @@ static bool engenlayer_complete_queued_withdrawal_ui(ethQueryContractUI_t *msg,
         case 7:
             strlcpy(msg->title, "Token", msg->titleLength);
             display_first_and_last_bytes(msg, context->referrer + 6, 6, 3);
+            return true;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            return false;
+    }
+}
+
+static bool eigenlayer_queue_withdrawal_ui(ethQueryContractUI_t *msg, const context_t *context) {
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "Strategy", msg->titleLength);
+            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            return true;
+
+        case 1:
+            strlcpy(msg->title, "Shares", msg->titleLength);
+            display_uint_decimal(msg, context->vault_shares, 32);
+            return true;
+
+        case 2:
+            strlcpy(msg->title, "Withdrawer", msg->titleLength);
+            display_first_and_last_bytes(msg, context->referrer, ADDRESS_LENGTH, 3);
             return true;
 
         default:
@@ -347,7 +371,11 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             break;
 
         case EIGENLAYER_COMPLETE_QUEUED_WITHDRAWAL:
-            ret = engenlayer_complete_queued_withdrawal_ui(msg, context);
+            ret = eigenlayer_complete_queued_withdrawal_ui(msg, context);
+            break;
+
+        case EIGENLAYER_QUEUE_WITHDRAWAL:
+            ret = eigenlayer_queue_withdrawal_ui(msg, context);
             break;
 
         case SYMBIOTIC_DEPOSIT:

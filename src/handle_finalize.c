@@ -21,6 +21,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             break;
 
         case STAKEWISE_CLAIM_EXITED_ASSETS:
+        case EIGENLAYER_QUEUE_WITHDRAWAL:
             msg->numScreens = 3;
             break;
 

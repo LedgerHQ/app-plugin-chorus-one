@@ -60,6 +60,10 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             strlcpy(msg->version, "Complete queued withdrawal", msg->versionLength);
             break;
 
+        case EIGENLAYER_QUEUE_WITHDRAWAL:
+            strlcpy(msg->version, "Queue withdrawal", msg->versionLength);
+            break;
+
         case SYMBIOTIC_DEPOSIT_SIG:
             strlcpy(msg->version, "Deposit with signature", msg->versionLength);
             break;
