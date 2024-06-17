@@ -100,3 +100,67 @@ runTest(
     "0",
     "eigenlayer"
 );
+
+runTest(
+    "Eigenlayer Complete Queued Withdrawal",
+    async (_eth) => {
+        const withdrawal = {
+            staker: "0x0102030000000000000000000000000000040506",
+            delegatedTo: "0x07080900000000000000000000000000000a0b0c",
+            withdrawer: "0x0d0e0f0000000000000000000000000000101112",
+            nonce: 19,
+            startBlock: 99,
+            strategies: ["0x13141500000000000000000000000000001c1d1e"],
+            shares: [10],
+        };
+        const tokens = ["0x1f20210000000000000000000000000000222324"];
+        const middlewareTimesIndex = 255;
+        const receiveAsTokens = false;
+
+        const { data } =
+            await eigenlayerContract.populateTransaction.completeQueuedWithdrawal(
+                withdrawal,
+                tokens,
+                middlewareTimesIndex,
+                receiveAsTokens
+            );
+        return [data, [12, 0]];
+    },
+    "0",
+    "eigenlayer"
+);
+
+runTest(
+    "Eigenlayer Queue Withdrawal",
+    async (_eth) => {
+        const withdrawal = [
+            {
+                strategies: ["0x0102030000000000000000000000000000040506"],
+                shares: [255],
+                withdrawer: "0x07080900000000000000000000000000000a0b0c",
+            },
+        ];
+
+        const { data } =
+            await eigenlayerContract.populateTransaction.queueWithdrawals(
+                withdrawal
+            );
+        return [data, [6, 0]];
+    },
+    "0",
+    "eigenlayer"
+);
+
+runTest(
+    "Eigenlayer Undelegate",
+    async (_eth) => {
+        const staker = "0x07080900000000000000000000000000000a0b0c";
+
+        const { data } =
+            await eigenlayerContract.populateTransaction.undelegate(staker);
+
+        return [data, [4, 0]];
+    },
+    "0",
+    "eigenlayer"
+);

@@ -17,6 +17,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             goto add_recipient_screen;
 
         case STAKEWISE_BURN_OS_TOKEN:
+        case EIGENLAYER_UNDELEGATE:
             msg->numScreens = 1;
             break;
 

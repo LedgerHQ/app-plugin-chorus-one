@@ -77,6 +77,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
 
         case EIGENLAYER_INCREASE_DELEGATED_SHARES:
         case EIGENLAYER_DECREASE_DELEGATED_SHARES:
+        case EIGENLAYER_UNDELEGATE:
             context->next_param = RECEIVER;
             break;
 

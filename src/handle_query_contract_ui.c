@@ -266,6 +266,20 @@ static bool eigenlayer_queue_withdrawal_ui(ethQueryContractUI_t *msg, const cont
     }
 }
 
+static bool eigenlayer_undelegate_ui(ethQueryContractUI_t *msg, const context_t *context) {
+    switch (msg->screenIndex) {
+        case 0:
+            strlcpy(msg->title, "Staker", msg->titleLength);
+            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            return true;
+
+        default:
+            PRINTF("Received an invalid screenIndex\n");
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            return false;
+    }
+}
+
 static bool symbiotic_deposit_issue_debt_withdraw_ui(ethQueryContractUI_t *msg,
                                                      const context_t *context) {
     switch (msg->screenIndex) {
@@ -376,6 +390,10 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
 
         case EIGENLAYER_QUEUE_WITHDRAWAL:
             ret = eigenlayer_queue_withdrawal_ui(msg, context);
+            break;
+
+        case EIGENLAYER_UNDELEGATE:
+            ret = eigenlayer_undelegate_ui(msg, context);
             break;
 
         case SYMBIOTIC_DEPOSIT:

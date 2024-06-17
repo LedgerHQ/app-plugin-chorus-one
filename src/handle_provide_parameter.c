@@ -362,6 +362,21 @@ static void handle_eigenlayer_queue_withdrawal(ethPluginProvideParameter_t *msg,
     }
 }
 
+static void handle_eigenlayer_undelegate(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case RECEIVER:
+            copy_address(context->receiver, msg->parameter, sizeof(context->receiver));
+            context->next_param = UNEXPECTED_PARAMETER;
+            break;
+
+        // Keep this
+        default:
+            semihosted_printf("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
 void handle_symbiotic_deposit_issue_debt_withdraw(ethPluginProvideParameter_t *msg,
                                                   context_t *context) {
     switch (context->next_param) {
@@ -480,6 +495,10 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
         case EIGENLAYER_QUEUE_WITHDRAWAL:
             handle_eigenlayer_queue_withdrawal(msg, context);
+            break;
+
+        case EIGENLAYER_UNDELEGATE:
+            handle_eigenlayer_undelegate(msg, context);
             break;
 
         case SYMBIOTIC_DEPOSIT:

@@ -64,6 +64,10 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             strlcpy(msg->version, "Queue withdrawal", msg->versionLength);
             break;
 
+        case EIGENLAYER_UNDELEGATE:
+            strlcpy(msg->version, "Undelegate", msg->versionLength);
+            break;
+
         case SYMBIOTIC_DEPOSIT_SIG:
             strlcpy(msg->version, "Deposit with signature", msg->versionLength);
             break;
