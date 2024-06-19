@@ -49,6 +49,17 @@ build_ethereum() {
     cd -
 }
 
+copy_elfs() {
+    # arguments: <SDK letter>
+    echo "** Copying elfs for Ethereum app - Nano $1..."
+    local target=".test_dependencies/ethereum/build/nano${1,,}/bin/"
+    mkdir -p ".test_dependencies/ethereum/build/nano${1,,}/bin/"
+    cp ./elfs/ethereum_nano${1,,}.elf "$target/app.elf"
+
+    mkdir -p /app/build/nano${1,,}/bin/
+    cp ./elfs/plugin_nano${1,,}.elf /app/build/nano${1,,}/bin/app.elf
+}
+
 
 main() {
     # create elfs folder if it doesn't exist
@@ -68,6 +79,10 @@ main() {
     echo "* Building elfs for Nano X..."
     build_plugin "X"
     build_ethereum "X"
+
+    # Copy elfs
+    copy_elfs "S"
+    copy_elfs "X"
 
     echo "* Done"
 }
