@@ -181,7 +181,7 @@ static void handle_eigenlayer_delegate_to(ethPluginProvideParameter_t *msg, cont
 
         // Keep this
         default:
-            semihosted_printf("Param not supported: %d\n", context->next_param);
+            PRINTF("Param not supported: %d\n", context->next_param);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
@@ -207,7 +207,7 @@ static void handle_eigenlayer_inc_dec_delegated_shares(ethPluginProvideParameter
 
         // Keep this
         default:
-            semihosted_printf("Param not supported: %d\n", context->next_param);
+            PRINTF("Param not supported: %d\n", context->next_param);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
@@ -303,7 +303,7 @@ static void handle_eigenlayer_complete_queued_withdrawal(ethPluginProvideParamet
 
         // Keep this
         default:
-            semihosted_printf("Param not supported: %d\n", context->next_param);
+            PRINTF("Param not supported: %d\n", context->next_param);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
@@ -371,7 +371,7 @@ static void handle_eigenlayer_undelegate(ethPluginProvideParameter_t *msg, conte
 
         // Keep this
         default:
-            semihosted_printf("Param not supported: %d\n", context->next_param);
+            PRINTF("Param not supported: %d\n", context->next_param);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
@@ -392,7 +392,7 @@ void handle_symbiotic_deposit_issue_debt_withdraw(ethPluginProvideParameter_t *m
 
         // Keep this
         default:
-            semihosted_printf("Param not supported: %d\n", context->next_param);
+            PRINTF("Param not supported: %d\n", context->next_param);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
@@ -434,7 +434,7 @@ void handle_symbiotic_deposit_sig(ethPluginProvideParameter_t *msg, context_t *c
 
         // Keep this
         default:
-            semihosted_printf("Param not supported: %d\n", context->next_param);
+            PRINTF("Param not supported: %d\n", context->next_param);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
