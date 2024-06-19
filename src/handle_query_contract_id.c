@@ -9,8 +9,7 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
 
     switch (context->selectorIndex) {
         case STAKEWISE_DEPOSIT:
-        case SYMBIOTIC_DEPOSIT:
-            strlcpy(msg->name, "Symbiotic", msg->nameLength);
+            strlcpy(msg->name, "Stakewise", msg->nameLength);
             strlcpy(msg->version, "Deposit", msg->versionLength);
             break;
 
@@ -77,6 +76,11 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
         case EIGENLAYER_UNDELEGATE:
             strlcpy(msg->name, "Eigenlayer", msg->nameLength);
             strlcpy(msg->version, "Undelegate", msg->versionLength);
+            break;
+
+        case SYMBIOTIC_DEPOSIT:
+            strlcpy(msg->name, "Symbiotic", msg->nameLength);
+            strlcpy(msg->version, "Deposit", msg->versionLength);
             break;
 
         case SYMBIOTIC_DEPOSIT_SIG:
