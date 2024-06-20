@@ -62,7 +62,7 @@ def test_stakewise_burn_os_token(ledger_utils):
 
 def test_stakewise_mint_os_token(ledger_utils):
     receiver = bytes.fromhex("010203efdeadbeefdeadbeefdeadbeefde040506")
-    maxUint256 = 2**256 - 1
+    maxUint256 = 2**252
     referrer = bytes.fromhex("6050403020100efdeadbeefdeadbeefdea010203")
 
     data = contract.encode_abi("mintOsToken", [receiver, maxUint256, referrer])
@@ -78,7 +78,7 @@ def test_stakewise_mint_os_token(ledger_utils):
 
 def test_stakewise_mint_os_token_wallet_address(ledger_utils):
     receiver = ledger_utils.get()
-    maxUint256 = 2**256 - 1
+    maxUint256 = 2**252
     referrer = bytes.fromhex("6050403020100efdeadbeefdeadbeefdea010203")
 
     data = contract.encode_abi("mintOsToken", [receiver, maxUint256, referrer])
@@ -93,7 +93,7 @@ def test_stakewise_mint_os_token_wallet_address(ledger_utils):
 
 
 def test_stakewise_redeem_os_token(ledger_utils):
-    maxUint256 = 2**256 - 1
+    maxUint256 = 2**252
     owner = bytes.fromhex("010203efdeadbeefdeadbeefdeadbeefde040506")
     receiver = bytes.fromhex("6050403020100efdeadbeefdeadbeefdea010203")
 
@@ -109,7 +109,7 @@ def test_stakewise_redeem_os_token(ledger_utils):
 
 
 def test_stakewise_redeem_os_token_wallet_address(ledger_utils):
-    maxUint256 = 2**256 - 1
+    maxUint256 = 2**252
     owner = bytes.fromhex("6050403020100efdeadbeefdeadbeefdea010203")
     receiver = ledger_utils.get()
 

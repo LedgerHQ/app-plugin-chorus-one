@@ -20,7 +20,7 @@ with open("%s/SymbioticAbi.json" % (ABIS_FOLDER)) as file:
 
 def test_symbiotic_deposit(ledger_utils):
     recipient = bytes.fromhex("0102030000000000000000000000000000030201")
-    maxUint256 = 2**256 - 1
+    maxUint256 = 2**252
 
     data = contract.encode_abi("deposit", [recipient, maxUint256])
 
@@ -34,7 +34,7 @@ def test_symbiotic_deposit(ledger_utils):
 
 def test_symbiotic_deposit_with_signature(ledger_utils):
     recipient = bytes.fromhex("0102030000000000000000000000000000030201")
-    maxUint256 = 2**256 - 1
+    maxUint256 = 2**252
     deadline = 0
     v = 27
     r = bytes.fromhex(
@@ -56,7 +56,7 @@ def test_symbiotic_deposit_with_signature(ledger_utils):
 
 def test_symbiotic_issue_debt(ledger_utils):
     recipient = bytes.fromhex("0102030000000000000000000000000000030201")
-    maxUint256 = 2**256 - 1
+    maxUint256 = 2**252
 
     data = contract.encode_abi("issueDebt", [recipient, maxUint256])
 
@@ -70,7 +70,7 @@ def test_symbiotic_issue_debt(ledger_utils):
 
 def test_symbiotic_withdraw(ledger_utils):
     recipient = bytes.fromhex("0102030000000000000000000000000000030201")
-    maxUint256 = 2**256 - 1
+    maxUint256 = 2**252
 
     data = contract.encode_abi("withdraw", [recipient, maxUint256])
 

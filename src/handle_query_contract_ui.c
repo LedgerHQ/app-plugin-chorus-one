@@ -36,7 +36,12 @@ static bool stakewise_burn_os_token_ui(ethQueryContractUI_t *msg, const context_
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "OS shares", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->os_token_shares, 16);
+            amountToString(context->os_token_shares,
+                           sizeof(context->os_token_shares),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         default:
@@ -51,7 +56,12 @@ static bool stakewise_enter_exit_queue_ui_and_redeem_ui(ethQueryContractUI_t *ms
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Vault shares", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
+            amountToString(context->vault_shares,
+                           sizeof(context->vault_shares),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 1:
@@ -73,17 +83,32 @@ static bool stakewise_claim_exited_assets_ui(ethQueryContractUI_t *msg, const co
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Position ticket", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
+            amountToString(context->vault_shares,
+                           sizeof(context->vault_shares),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 1:
             strlcpy(msg->title, "Timestamp", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->timestamp, 32);
+            amountToString(context->timestamp,
+                           sizeof(context->timestamp),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 2:
             strlcpy(msg->title, "Exit Queue index", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->exit_queue_index, 32);
+            amountToString(context->exit_queue_index,
+                           sizeof(context->exit_queue_index),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         default:
@@ -97,9 +122,12 @@ static bool stakewise_redeem_os_token_ui(ethQueryContractUI_t *msg, const contex
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "OsToken shares", msg->titleLength);
-            // Use `vault_shares` to store the os_token_shares, in this function
-            // OsToken shares are 32 bytes.
-            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
+            amountToString(context->vault_shares,
+                           sizeof(context->vault_shares),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 1:
@@ -123,7 +151,12 @@ static bool stakewise_mint_os_token_ui(ethQueryContractUI_t *msg, const context_
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "OsToken shares", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
+            amountToString(context->vault_shares,
+                           sizeof(context->vault_shares),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 1:
@@ -154,7 +187,12 @@ static bool eigenlayer_delegate_to_ui(ethQueryContractUI_t *msg, const context_t
 
         case 2:
             strlcpy(msg->title, "Expiry", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->timestamp, 32);
+            amountToString(context->timestamp,
+                           sizeof(context->timestamp),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 3:
@@ -179,7 +217,12 @@ static bool eigenlayer_inc_dec_delegated_shares_ui(ethQueryContractUI_t *msg,
 
         case 1:
             strlcpy(msg->title, "Shares", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
+            amountToString(context->vault_shares,
+                           sizeof(context->vault_shares),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 2:
@@ -211,12 +254,22 @@ static bool eigenlayer_complete_queued_withdrawal_ui(ethQueryContractUI_t *msg,
 
         case 3:
             strlcpy(msg->title, "Nonce", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->timestamp, sizeof(context->timestamp));
+            amountToString(context->timestamp,
+                           sizeof(context->timestamp),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 4:
             strlcpy(msg->title, "Start Block", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->uint32_var, sizeof(context->uint32_var));
+            amountToString(context->uint32_var,
+                           sizeof(context->uint32_var),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 5:
@@ -226,7 +279,12 @@ static bool eigenlayer_complete_queued_withdrawal_ui(ethQueryContractUI_t *msg,
 
         case 6:
             strlcpy(msg->title, "Shares", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
+            amountToString(context->vault_shares,
+                           sizeof(context->vault_shares),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 7:
@@ -250,7 +308,12 @@ static bool eigenlayer_queue_withdrawal_ui(ethQueryContractUI_t *msg, const cont
 
         case 1:
             strlcpy(msg->title, "Shares", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
+            amountToString(context->vault_shares,
+                           sizeof(context->vault_shares),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 2:
@@ -284,7 +347,12 @@ static bool symbiotic_deposit_issue_debt_withdraw_ui(ethQueryContractUI_t *msg,
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Amount", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
+            amountToString(context->vault_shares,
+                           sizeof(context->vault_shares),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 1:
@@ -303,12 +371,22 @@ static bool symbiotic_deposit_sig_ui(ethQueryContractUI_t *msg, const context_t 
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Amount", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
+            amountToString(context->vault_shares,
+                           sizeof(context->vault_shares),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 1:
             strlcpy(msg->title, "Deadline", msg->titleLength);
-            display_uint_decimal(msg, (uint8_t *) context->timestamp, 32);
+            amountToString(context->timestamp,
+                           sizeof(context->timestamp),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
             return true;
 
         case 2:

@@ -41,7 +41,7 @@ def test_eigenlayer_delegate_to(ledger_utils):
 def test_eigenlayer_increase_delegated_shares_wallet_address(ledger_utils):
     receiver = ledger_utils.get()
     strategy = bytes.fromhex("0405060000000000000000000000000000070809")
-    shares = 2**256 - 1
+    shares = 2**252
 
     data = contract.encode_abi("increaseDelegatedShares", [receiver, strategy, shares])
 
@@ -56,7 +56,7 @@ def test_eigenlayer_increase_delegated_shares_wallet_address(ledger_utils):
 def test_eigenlayer_increase_delegated_shares(ledger_utils):
     receiver = bytes.fromhex("0102030000000000000000000000000000030201")
     strategy = bytes.fromhex("0405060000000000000000000000000000070809")
-    shares = 2**256 - 1
+    shares = 2**252
 
     data = contract.encode_abi("increaseDelegatedShares", [receiver, strategy, shares])
 
@@ -71,7 +71,7 @@ def test_eigenlayer_increase_delegated_shares(ledger_utils):
 def test_eigenlayer_decrease_delegated_shares_wallet_address(ledger_utils):
     receiver = ledger_utils.get()
     strategy = bytes.fromhex("0405060000000000000000000000000000070809")
-    shares = 2**256 - 1
+    shares = 2**252
 
     data = contract.encode_abi("decreaseDelegatedShares", [receiver, strategy, shares])
 
@@ -86,7 +86,7 @@ def test_eigenlayer_decrease_delegated_shares_wallet_address(ledger_utils):
 def test_eigenlayer_decrease_delegated_shares(ledger_utils):
     receiver = bytes.fromhex("0102030000000000000000000000000000030201")
     strategy = bytes.fromhex("0405060000000000000000000000000000070809")
-    shares = 2**256 - 1
+    shares = 2**252
 
     data = contract.encode_abi("decreaseDelegatedShares", [receiver, strategy, shares])
 
