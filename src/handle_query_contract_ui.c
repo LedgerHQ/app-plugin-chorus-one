@@ -93,8 +93,7 @@ static bool stakewise_claim_exited_assets_ui(ethQueryContractUI_t *msg, const co
     }
 }
 
-static bool stakewise_liquidate_redeem_os_token_ui(ethQueryContractUI_t *msg,
-                                                   const context_t *context) {
+static bool stakewise_redeem_os_token_ui(ethQueryContractUI_t *msg, const context_t *context) {
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "OsToken shares", msg->titleLength);
@@ -366,9 +365,8 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             ret = stakewise_claim_exited_assets_ui(msg, context);
             break;
 
-        case STAKEWISE_LIQUIDATE_OS_TOKEN:
         case STAKEWISE_REDEEM_OS_TOKEN:
-            ret = stakewise_liquidate_redeem_os_token_ui(msg, context);
+            ret = stakewise_redeem_os_token_ui(msg, context);
             break;
 
         case STAKEWISE_MINT_OS_TOKEN:

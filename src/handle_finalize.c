@@ -26,7 +26,6 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             msg->numScreens = 3;
             break;
 
-        case STAKEWISE_LIQUIDATE_OS_TOKEN:
         case STAKEWISE_REDEEM_OS_TOKEN:
         case EIGENLAYER_INCREASE_DELEGATED_SHARES:
         case EIGENLAYER_DECREASE_DELEGATED_SHARES:
