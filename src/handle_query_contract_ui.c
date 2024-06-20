@@ -23,7 +23,7 @@ static bool stakewise_deposit_ui(ethQueryContractUI_t *msg, const context_t *con
             strlcpy(msg->title, "Receiver", msg->titleLength);
             // Get the string representation of the address stored in `context->receiver`. Put it in
             // `msg->msg`.
-            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->receiver, ADDRESS_LENGTH, 3);
             return true;
         default:
             PRINTF("Received an invalid screenIndex\n");
@@ -36,7 +36,7 @@ static bool stakewise_burn_os_token_ui(ethQueryContractUI_t *msg, const context_
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "OS shares", msg->titleLength);
-            display_uint_decimal(msg, context->os_token_shares, 16);
+            display_uint_decimal(msg, (uint8_t *) context->os_token_shares, 16);
             return true;
 
         default:
@@ -51,7 +51,7 @@ static bool stakewise_enter_exit_queue_ui_and_redeem_ui(ethQueryContractUI_t *ms
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Vault shares", msg->titleLength);
-            display_uint_decimal(msg, context->vault_shares, 32);
+            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
             return true;
 
         case 1:
@@ -59,7 +59,7 @@ static bool stakewise_enter_exit_queue_ui_and_redeem_ui(ethQueryContractUI_t *ms
             strlcpy(msg->title, "Receiver", msg->titleLength);
             // Get the string representation of the address stored in `context->receiver`. Put it in
             // `msg->msg`.
-            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->receiver, ADDRESS_LENGTH, 3);
             return true;
 
         default:
@@ -73,17 +73,17 @@ static bool stakewise_claim_exited_assets_ui(ethQueryContractUI_t *msg, const co
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Position ticket", msg->titleLength);
-            display_uint_decimal(msg, context->vault_shares, 32);
+            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
             return true;
 
         case 1:
             strlcpy(msg->title, "Timestamp", msg->titleLength);
-            display_uint_decimal(msg, context->timestamp, 32);
+            display_uint_decimal(msg, (uint8_t *) context->timestamp, 32);
             return true;
 
         case 2:
             strlcpy(msg->title, "Exit Queue index", msg->titleLength);
-            display_uint_decimal(msg, context->exit_queue_index, 32);
+            display_uint_decimal(msg, (uint8_t *) context->exit_queue_index, 32);
             return true;
 
         default:
@@ -99,17 +99,17 @@ static bool stakewise_redeem_os_token_ui(ethQueryContractUI_t *msg, const contex
             strlcpy(msg->title, "OsToken shares", msg->titleLength);
             // Use `vault_shares` to store the os_token_shares, in this function
             // OsToken shares are 32 bytes.
-            display_uint_decimal(msg, context->vault_shares, 32);
+            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
             return true;
 
         case 1:
             strlcpy(msg->title, "Owner", msg->titleLength);
-            display_first_and_last_bytes(msg, context->referrer, ADDRESS_LENGTH, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->referrer, ADDRESS_LENGTH, 3);
             return true;
 
         case 2:
             strlcpy(msg->title, "Receiver", msg->titleLength);
-            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->receiver, ADDRESS_LENGTH, 3);
             return true;
 
         default:
@@ -123,14 +123,14 @@ static bool stakewise_mint_os_token_ui(ethQueryContractUI_t *msg, const context_
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "OsToken shares", msg->titleLength);
-            display_uint_decimal(msg, context->vault_shares, 32);
+            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
             return true;
 
         case 1:
             strlcpy(msg->title, "Receiver", msg->titleLength);
             // Use `vault_shares` to store the os_token_shares, in this function
             // OsToken shares are 32 bytes.
-            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->receiver, ADDRESS_LENGTH, 3);
             return true;
 
         default:
@@ -144,22 +144,22 @@ static bool eigenlayer_delegate_to_ui(ethQueryContractUI_t *msg, const context_t
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Operator", msg->titleLength);
-            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->receiver, ADDRESS_LENGTH, 3);
             return true;
 
         case 1:
             strlcpy(msg->title, "Approver Salt", msg->titleLength);
-            display_first_and_last_bytes(msg, context->vault_shares, 32, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->vault_shares, 32, 3);
             return true;
 
         case 2:
             strlcpy(msg->title, "Expiry", msg->titleLength);
-            display_uint_decimal(msg, context->timestamp, 32);
+            display_uint_decimal(msg, (uint8_t *) context->timestamp, 32);
             return true;
 
         case 3:
             strlcpy(msg->title, "Signature", msg->titleLength);
-            display_first_and_last_bytes(msg, context->exit_queue_index, 32, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->exit_queue_index, 32, 3);
             return true;
 
         default:
@@ -174,18 +174,18 @@ static bool eigenlayer_inc_dec_delegated_shares_ui(ethQueryContractUI_t *msg,
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Strategy", msg->titleLength);
-            display_first_and_last_bytes(msg, context->referrer, ADDRESS_LENGTH, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->referrer, ADDRESS_LENGTH, 3);
             return true;
 
         case 1:
             strlcpy(msg->title, "Shares", msg->titleLength);
-            display_uint_decimal(msg, context->vault_shares, 32);
+            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
             return true;
 
         case 2:
             // If receiver is different from the current address, display the receiver.
             strlcpy(msg->title, "Receiver", msg->titleLength);
-            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->receiver, ADDRESS_LENGTH, 3);
             return true;
     }
     return false;
@@ -196,42 +196,42 @@ static bool eigenlayer_complete_queued_withdrawal_ui(ethQueryContractUI_t *msg,
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Staker", msg->titleLength);
-            display_first_and_last_bytes(msg, context->receiver, 6, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->receiver, 6, 3);
             return true;
 
         case 1:
             strlcpy(msg->title, "Delegated To", msg->titleLength);
-            display_first_and_last_bytes(msg, context->receiver + 6, 6, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->receiver + 6, 6, 3);
             return true;
 
         case 2:
             strlcpy(msg->title, "Withdrawer", msg->titleLength);
-            display_first_and_last_bytes(msg, context->receiver + 12, 6, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->receiver + 12, 6, 3);
             return true;
 
         case 3:
             strlcpy(msg->title, "Nonce", msg->titleLength);
-            display_uint_decimal(msg, context->timestamp, sizeof(context->timestamp));
+            display_uint_decimal(msg, (uint8_t *) context->timestamp, sizeof(context->timestamp));
             return true;
 
         case 4:
             strlcpy(msg->title, "Start Block", msg->titleLength);
-            display_uint_decimal(msg, context->uint32_var, sizeof(context->uint32_var));
+            display_uint_decimal(msg, (uint8_t *) context->uint32_var, sizeof(context->uint32_var));
             return true;
 
         case 5:
             strlcpy(msg->title, "Strategy", msg->titleLength);
-            display_first_and_last_bytes(msg, context->referrer, 6, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->referrer, 6, 3);
             return true;
 
         case 6:
             strlcpy(msg->title, "Shares", msg->titleLength);
-            display_uint_decimal(msg, context->vault_shares, 32);
+            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
             return true;
 
         case 7:
             strlcpy(msg->title, "Token", msg->titleLength);
-            display_first_and_last_bytes(msg, context->referrer + 6, 6, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->referrer + 6, 6, 3);
             return true;
 
         default:
@@ -245,17 +245,17 @@ static bool eigenlayer_queue_withdrawal_ui(ethQueryContractUI_t *msg, const cont
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Strategy", msg->titleLength);
-            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->receiver, ADDRESS_LENGTH, 3);
             return true;
 
         case 1:
             strlcpy(msg->title, "Shares", msg->titleLength);
-            display_uint_decimal(msg, context->vault_shares, 32);
+            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
             return true;
 
         case 2:
             strlcpy(msg->title, "Withdrawer", msg->titleLength);
-            display_first_and_last_bytes(msg, context->referrer, ADDRESS_LENGTH, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->referrer, ADDRESS_LENGTH, 3);
             return true;
 
         default:
@@ -269,7 +269,7 @@ static bool eigenlayer_undelegate_ui(ethQueryContractUI_t *msg, const context_t 
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Staker", msg->titleLength);
-            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->receiver, ADDRESS_LENGTH, 3);
             return true;
 
         default:
@@ -284,12 +284,12 @@ static bool symbiotic_deposit_issue_debt_withdraw_ui(ethQueryContractUI_t *msg,
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Amount", msg->titleLength);
-            display_uint_decimal(msg, context->vault_shares, 32);
+            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
             return true;
 
         case 1:
             strlcpy(msg->title, "Recipient", msg->titleLength);
-            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->receiver, ADDRESS_LENGTH, 3);
             return true;
 
         default:
@@ -303,32 +303,32 @@ static bool symbiotic_deposit_sig_ui(ethQueryContractUI_t *msg, const context_t 
     switch (msg->screenIndex) {
         case 0:
             strlcpy(msg->title, "Amount", msg->titleLength);
-            display_uint_decimal(msg, context->vault_shares, 32);
+            display_uint_decimal(msg, (uint8_t *) context->vault_shares, 32);
             return true;
 
         case 1:
             strlcpy(msg->title, "Deadline", msg->titleLength);
-            display_uint_decimal(msg, context->timestamp, 32);
+            display_uint_decimal(msg, (uint8_t *) context->timestamp, 32);
             return true;
 
         case 2:
             strlcpy(msg->title, "V", msg->titleLength);
-            display_first_and_last_bytes(msg, context->os_token_shares + 15, 0, 1);
+            display_first_and_last_bytes(msg, (uint8_t *) context->os_token_shares + 15, 0, 1);
             return true;
 
         case 3:
             strlcpy(msg->title, "R", msg->titleLength);
-            display_first_and_last_bytes(msg, context->exit_queue_index, 6, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->exit_queue_index, 6, 3);
             return true;
 
         case 4:
             strlcpy(msg->title, "S", msg->titleLength);
-            display_first_and_last_bytes(msg, context->exit_queue_index + 6, 6, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->exit_queue_index + 6, 6, 3);
             return true;
 
         case 5:
             strlcpy(msg->title, "Recipient", msg->titleLength);
-            display_first_and_last_bytes(msg, context->receiver, ADDRESS_LENGTH, 3);
+            display_first_and_last_bytes(msg, (uint8_t *) context->receiver, ADDRESS_LENGTH, 3);
             return true;
 
         default:
