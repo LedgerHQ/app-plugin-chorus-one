@@ -297,7 +297,7 @@ static void handle_eigenlayer_complete_queued_withdrawal(ethPluginProvideParamet
         case TOKENS:
             copy_parameter(context->referrer + 6, msg->parameter + 12, 3);
             copy_parameter(context->referrer + 9, msg->parameter + 29, 3);
-            context->next_param = RECEIVE_AS_TOKENS;
+            context->next_param = UNEXPECTED_PARAMETER;
             break;
 
         // Keep this

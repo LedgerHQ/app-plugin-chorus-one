@@ -292,6 +292,25 @@ static bool eigenlayer_complete_queued_withdrawal_ui(ethQueryContractUI_t *msg,
             display_first_and_last_bytes(msg, (uint8_t *) context->referrer + 6, 6, 3);
             return true;
 
+        case 8:
+            strlcpy(msg->title, "Middleware times idx", msg->titleLength);
+            amountToString(context->exit_queue_index,
+                           sizeof(context->exit_queue_index),
+                           0,
+                           "",
+                           msg->msg,
+                           msg->msgLength);
+            return true;
+
+        case 9:
+            strlcpy(msg->title, "Receive as tokens", msg->titleLength);
+            if (context->bool_var == 1u) {
+                strlcpy(msg->msg, "TRUE", 5);
+            } else {
+                strlcpy(msg->msg, "FALSE", 6);
+            }
+            return true;
+
         default:
             PRINTF("Received an invalid screenIndex\n");
             msg->result = ETH_PLUGIN_RESULT_ERROR;

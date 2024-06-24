@@ -83,11 +83,13 @@ def send_tx_and_compare_snapshots(client, navigator, wallet_addr, test_name, tx_
 class LedgerUtils:
     client: EthAppClient
     test_name: str
+    firmware: str
 
-    def __init__(self, backend, navigator, test_name):
+    def __init__(self, backend, navigator, firmware, test_name):
         self.client = EthAppClient(backend)
         self.navigator = navigator
         self.test_name = test_name
+        self.firmware = firmware
 
     def get(self, path=DERIVATION_PATH) -> bytes:
         with self.client.get_public_addr(display=False, bip32_path=path):
@@ -106,12 +108,22 @@ class LedgerUtils:
         # send the transaction
         with self.client.sign(DERIVATION_PATH, tx_params):
             # Validate the on-screen request by performing the navigation appropriate for this device
+            if self.firmware.device.startswith("nano"):
+                end_text = "Accept"
+                nav_inst = NavInsID.RIGHT_CLICK
+                valid_instr = [NavInsID.BOTH_CLICK]
+            else:
+                end_text = "Hold to sign"
+                nav_inst = NavInsID.USE_CASE_REVIEW_TAP
+                valid_instr = [NavInsID.USE_CASE_REVIEW_CONFIRM]
+
             self.navigator.navigate_until_text_and_compare(
-                NavInsID.RIGHT_CLICK,
-                [NavInsID.BOTH_CLICK],
-                "Accept",
+                nav_inst,
+                valid_instr,
+                end_text,
                 ROOT_SCREENSHOT_PATH,
                 self.test_name,
+                screen_change_after_last_instruction=False
             )
         # verify signature
         vrs = ResponseParser.signature(self.client.response().data)

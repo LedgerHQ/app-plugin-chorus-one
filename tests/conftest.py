@@ -26,5 +26,5 @@ pytest_plugins = ("ragger.conftest.base_conftest",)
 
 
 @pytest.fixture
-def ledger_utils(backend, navigator, test_name):
-    return LedgerUtils(backend, navigator, test_name)
+def ledger_utils(backend, navigator, firmware, test_name):
+    return LedgerUtils(backend, navigator, firmware, test_name)
