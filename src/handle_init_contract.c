@@ -62,7 +62,6 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             context->next_param = POSITION_TICKET;
             break;
 
-        case STAKEWISE_LIQUIDATE_OS_TOKEN:
         case STAKEWISE_REDEEM_OS_TOKEN:
             context->next_param = OS_TOKEN_SHARES;
             break;

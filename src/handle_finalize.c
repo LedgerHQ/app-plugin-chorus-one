@@ -26,7 +26,6 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             msg->numScreens = 3;
             break;
 
-        case STAKEWISE_LIQUIDATE_OS_TOKEN:
         case STAKEWISE_REDEEM_OS_TOKEN:
         case EIGENLAYER_INCREASE_DELEGATED_SHARES:
         case EIGENLAYER_DECREASE_DELEGATED_SHARES:
@@ -34,7 +33,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             goto add_recipient_screen;
 
         case EIGENLAYER_COMPLETE_QUEUED_WITHDRAWAL:
-            msg->numScreens = 8;
+            msg->numScreens = 10;
             break;
 
         case EIGENLAYER_DELEGATE_TO:

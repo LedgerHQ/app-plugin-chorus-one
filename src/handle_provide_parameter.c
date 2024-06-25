@@ -84,8 +84,7 @@ static void handle_stakewise_claim_exited_assets(ethPluginProvideParameter_t *ms
     }
 }
 
-static void handle_stakewise_liquidate_redeem_os_token(ethPluginProvideParameter_t *msg,
-                                                       context_t *context) {
+static void handle_stakewise_redeem_os_token(ethPluginProvideParameter_t *msg, context_t *context) {
     switch (context->next_param) {
         case OS_TOKEN_SHARES:
             copy_parameter(context->vault_shares, msg->parameter, sizeof(context->vault_shares));
@@ -181,7 +180,7 @@ static void handle_eigenlayer_delegate_to(ethPluginProvideParameter_t *msg, cont
 
         // Keep this
         default:
-            semihosted_printf("Param not supported: %d\n", context->next_param);
+            PRINTF("Param not supported: %d\n", context->next_param);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
@@ -207,7 +206,7 @@ static void handle_eigenlayer_inc_dec_delegated_shares(ethPluginProvideParameter
 
         // Keep this
         default:
-            semihosted_printf("Param not supported: %d\n", context->next_param);
+            PRINTF("Param not supported: %d\n", context->next_param);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
@@ -298,12 +297,12 @@ static void handle_eigenlayer_complete_queued_withdrawal(ethPluginProvideParamet
         case TOKENS:
             copy_parameter(context->referrer + 6, msg->parameter + 12, 3);
             copy_parameter(context->referrer + 9, msg->parameter + 29, 3);
-            context->next_param = RECEIVE_AS_TOKENS;
+            context->next_param = UNEXPECTED_PARAMETER;
             break;
 
         // Keep this
         default:
-            semihosted_printf("Param not supported: %d\n", context->next_param);
+            PRINTF("Param not supported: %d\n", context->next_param);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
@@ -371,7 +370,7 @@ static void handle_eigenlayer_undelegate(ethPluginProvideParameter_t *msg, conte
 
         // Keep this
         default:
-            semihosted_printf("Param not supported: %d\n", context->next_param);
+            PRINTF("Param not supported: %d\n", context->next_param);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
@@ -392,7 +391,7 @@ void handle_symbiotic_deposit_issue_debt_withdraw(ethPluginProvideParameter_t *m
 
         // Keep this
         default:
-            semihosted_printf("Param not supported: %d\n", context->next_param);
+            PRINTF("Param not supported: %d\n", context->next_param);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
@@ -434,7 +433,7 @@ void handle_symbiotic_deposit_sig(ethPluginProvideParameter_t *msg, context_t *c
 
         // Keep this
         default:
-            semihosted_printf("Param not supported: %d\n", context->next_param);
+            PRINTF("Param not supported: %d\n", context->next_param);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
@@ -471,9 +470,8 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
             handle_stakewise_claim_exited_assets(msg, context);
             break;
 
-        case STAKEWISE_LIQUIDATE_OS_TOKEN:
         case STAKEWISE_REDEEM_OS_TOKEN:
-            handle_stakewise_liquidate_redeem_os_token(msg, context);
+            handle_stakewise_redeem_os_token(msg, context);
             break;
 
         case STAKEWISE_MINT_OS_TOKEN:

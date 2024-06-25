@@ -30,7 +30,6 @@
     X(STAKEWISE_BURN_OS_TOKEN, 0x066055e0)               \
     X(STAKEWISE_ENTER_EXIT_QUEUE, 0x8ceab9aa)            \
     X(STAKEWISE_CLAIM_EXITED_ASSETS, 0x8697d2c2)         \
-    X(STAKEWISE_LIQUIDATE_OS_TOKEN, 0x2999ad3f)          \
     X(STAKEWISE_MINT_OS_TOKEN, 0x201b9eb5)               \
     X(STAKEWISE_REDEEM, 0x7bde82f2)                      \
     X(STAKEWISE_REDEEM_OS_TOKEN, 0x43e82a79)             \

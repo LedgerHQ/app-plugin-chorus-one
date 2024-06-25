@@ -28,11 +28,6 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             strlcpy(msg->version, "Claim exited assets", msg->versionLength);
             break;
 
-        case STAKEWISE_LIQUIDATE_OS_TOKEN:
-            strlcpy(msg->name, "Stakewise", msg->nameLength);
-            strlcpy(msg->version, "Liquidate OS Token", msg->versionLength);
-            break;
-
         case STAKEWISE_MINT_OS_TOKEN:
             strlcpy(msg->name, "Stakewise", msg->nameLength);
             strlcpy(msg->version, "Mint OS Token", msg->versionLength);
