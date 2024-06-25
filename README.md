@@ -1,69 +1,20 @@
 # Opus plugin for Stakewise vaults and Eigenlayer contracts
 
-This repository contains code for the Opus plugin for stakewise and Eigenlayer
-contracts.
+This repository contains code for the Opus plugin for stakewise, Eigenlayer and
+Symbiotic contracts.
 
-## Implemented functions
+## Smart Contracts and functions
 
-### Stakewise
+The implemented Smart Contracts and functions can be found in
+[PLUGIN_SPECIFICATION.md](./PLUGIN_SPECIFICATION.md)
 
-- burnOsToken(uint128 osTokenShares)
-- claimExitedTokens(uint256 positionTicket, uint256 timestamp, uint256 exitQueueIndex)
-- deposit(address receiver, address referrer)
-- enterExitQueue(uint256 shares, address receiver)
-- liquidateOsToken(uint256 osTokenShares, address owner, address receiver)
-- mintOsToken(address receiver, uint256 osTokenShares, address referrer)
-- redeem(uint256 shares, address receiver)
-- redeemOsToken(uint256 osTokenShares, address owner, address receiver)
-
-### Eigenlayer
-
-- function delegateTo(address operator, IDelegationManager.SignatureWithExpiry memory approverSignatureAndExpiry, bytes32 approverSalt)
-- function increaseDelegatedShares(address staker, address strategy, uint256 shares)
-- function decreaseDelegatedShares(address staker, address strategy, uint256 shares)
-- function completeQueuedWithdrawal(Withdrawal withdrawal, IERC20[] tokens, uint256 middlewareTimesIndex, bool receiveAsTokens)
-- function queueWithdrawals(QueuedWithdrawalParams[] queuedWithdrawalParams)
-
-#### Structs
-
-```solidity
-struct Withdrawal {
-        // The address that originated the Withdrawal
-        address staker;
-        // The address that the staker was delegated to at the time that the Withdrawal was created
-        address delegatedTo;
-        // The address that can complete the Withdrawal + will receive funds when completing the withdrawal
-        address withdrawer;
-        // Nonce used to guarantee that otherwise identical withdrawals have unique hashes
-        uint256 nonce;
-        // Block number when the Withdrawal was created
-        uint32 startBlock;
-        // Array of strategies that the Withdrawal contains
-        IStrategy[] strategies;
-        // Array containing the amount of shares in each Strategy in the `strategies` array
-        uint256[] shares;
-    }
-```
-
-```solidity
-struct QueuedWithdrawalParams {
-        // Array of strategies that the QueuedWithdrawal contains
-        IStrategy[] strategies;
-        // Array containing the amount of shares in each Strategy in the `strategies` array
-        uint256[] shares;
-        // The address of the withdrawer
-        address withdrawer;
-    }
-```
 
 ## Testing
 
-For testing, we use the [Zemu](https://github.com/Zondax/zemu) for simulating a Ledger device,
-to run the tests make sure your node version is `>21.7` and run:
+For testing, we use the [Ragger](https://github.com/LedgerHQ/ragger) for
+simulating a Ledger device, to run the tests, use the Ledger plugin on VSCode or
+run them with:
 
 ```bash
-npm install
-npm run test
+pytest ./tests --device <nanos/nanox/nanosp/stax>
 ```
-
-These will run all tests matching `tests/src/<*.test.js>`
