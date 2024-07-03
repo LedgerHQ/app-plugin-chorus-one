@@ -27,9 +27,9 @@ For the smart contracts implemented, the functions covered by the plugin shall b
 
 |Contract |    Function   | Selector  | Displayed Parameters |
 |   ---   |    ---        | ---       | --- |
-|Stakewise  | burnOsToken | `0x066055e0`| <table><tbody> <tr><td><code>uint128 osTokenShares</code></td></tr> <tr><td><code>uint256 timestamp</code></td></tr> <tr><td><code>uint256 exitQueueIndex</code></td></tr> </tbody></table> |
-|Stakewise  | claimExitedAssets | `0x8697d2c2`| <table><tbody> <tr><td><code>address receiver</code></td></tr> <tr><td><code>address referrer</code></td></tr> </tbody></table> |
-|Stakewise  | deposit | `0xf9609f08`| <table><tbody> <tr><td><code>type ParameterName</code></td></tr> </tbody></table> |
+|Stakewise  | burnOsToken | `0x066055e0`| <table><tbody> <tr><td><code>uint128 osTokenShares</code></td></tr> </tbody></table> |
+|Stakewise  | claimExitedAssets | `0x8697d2c2`| <table><tbody> <tr><td><code>uint256 positionTicket</code></td></tr> <tr><td><code>uint256 timestamp</code></td></tr> <tr><td><code>uint256 exitQueueIndex</code></td></tr></tbody></table> |
+|Stakewise  | deposit | `0xf9609f08`| <table><tbody> <tr><td><code>address receiver</code></td></tr> <tr><td><code>address referrer</code></td></tr> </tbody></table> |
 |Stakewise  | enterExitQueue | `0x8ceab9aa`| <table><tbody> <tr><td><code>uint256 shares</code></td></tr> <tr><td><code>address receiver</code></td></tr> </tbody></table> |
 |Stakewise  | mintOsToken | `0x201b9eb5`| <table><tbody> <tr><td><code>address receiver</code></td></tr> <tr><td><code>uint256 osTokenShares</code></td></tr> <tr><td><code>address referrer</code></td></tr> </tbody></table> |
 |Stakewise  | redeem | `0x7bde82f2`| <table><tbody> <tr><td><code>uint256 shares</code></td></tr> <tr><td><code>address receiver</code></td></tr> </tbody></table> |
