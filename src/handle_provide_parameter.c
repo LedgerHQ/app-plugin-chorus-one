@@ -1,4 +1,5 @@
 #include "plugin.h"
+#include "utils.h"
 
 static void handle_stakewise_deposit(ethPluginProvideParameter_t *msg, context_t *context) {
     switch (context->next_param) {
@@ -135,6 +136,7 @@ static void handle_stakewise_mint_os_token(ethPluginProvideParameter_t *msg, con
 }
 
 static void handle_eigenlayer_delegate_to(ethPluginProvideParameter_t *msg, context_t *context) {
+    uint8_t expected_bytes[3] = {0x60, 0x40, 0x41};
     switch (context->next_param) {
         case OPERATOR:
             copy_address(context->receiver, msg->parameter, sizeof(context->receiver));
@@ -142,7 +144,12 @@ static void handle_eigenlayer_delegate_to(ethPluginProvideParameter_t *msg, cont
             break;
 
         case OFFSET_1:
-            context->next_param = APPROVER_SALT;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[0], 1)) {
+                context->next_param = APPROVER_SALT;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case APPROVER_SALT:
@@ -151,7 +158,12 @@ static void handle_eigenlayer_delegate_to(ethPluginProvideParameter_t *msg, cont
             break;
 
         case OFFSET_2:
-            context->next_param = EXPIRY;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[1], 1)) {
+                context->next_param = EXPIRY;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case EXPIRY:
@@ -160,7 +172,12 @@ static void handle_eigenlayer_delegate_to(ethPluginProvideParameter_t *msg, cont
             break;
 
         case ARRAY_LEN_1:
-            context->next_param = SIGNATURE_1;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[2], 1)) {
+                context->next_param = SIGNATURE_1;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case SIGNATURE_1:
@@ -214,13 +231,31 @@ static void handle_eigenlayer_inc_dec_delegated_shares(ethPluginProvideParameter
 
 static void handle_eigenlayer_complete_queued_withdrawal(ethPluginProvideParameter_t *msg,
                                                          context_t *context) {
+    uint8_t expected_bytes[5] = {
+        0x80,
+        0x01,
+        0xe0,
+        0x01,
+        0x20,
+    };
     switch (context->next_param) {
         case OFFSET_1:
-            context->next_param = OFFSET_2;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[0], 1)) {
+                context->next_param = OFFSET_2;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
+
             break;
 
         case OFFSET_2:
-            context->next_param = MIDDLEWARE_TIMES_INDEX;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[1], 2)) {
+                context->next_param = MIDDLEWARE_TIMES_INDEX;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case MIDDLEWARE_TIMES_INDEX:
@@ -264,15 +299,30 @@ static void handle_eigenlayer_complete_queued_withdrawal(ethPluginProvideParamet
             break;
 
         case OFFSET_3:
-            context->next_param = OFFSET_4;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[2], 1)) {
+                context->next_param = OFFSET_4;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case OFFSET_4:
-            context->next_param = ARRAY_LEN_1;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[3], 2)) {
+                context->next_param = ARRAY_LEN_1;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case ARRAY_LEN_1:
-            context->next_param = STRATEGY;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[1], 1)) {
+                context->next_param = STRATEGY;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case STRATEGY:
@@ -282,7 +332,12 @@ static void handle_eigenlayer_complete_queued_withdrawal(ethPluginProvideParamet
             break;
 
         case ARRAY_LEN_2:
-            context->next_param = SHARES;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[1], 1)) {
+                context->next_param = SHARES;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case SHARES:
@@ -291,7 +346,12 @@ static void handle_eigenlayer_complete_queued_withdrawal(ethPluginProvideParamet
             break;
 
         case ARRAY_LEN_3:
-            context->next_param = TOKENS;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[1], 1)) {
+                context->next_param = TOKENS;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case TOKENS:
@@ -310,25 +370,57 @@ static void handle_eigenlayer_complete_queued_withdrawal(ethPluginProvideParamet
 
 static void handle_eigenlayer_queue_withdrawal(ethPluginProvideParameter_t *msg,
                                                context_t *context) {
+    uint8_t expected_bytes[5] = {
+        0x20,
+        0x01,
+        0x60,
+        0xa0,
+    };
     switch (context->next_param) {
         case OFFSET_1:
-            context->next_param = ARRAY_LEN_1;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[0], 1)) {
+                context->next_param = ARRAY_LEN_1;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
+
             break;
 
         case ARRAY_LEN_1:
-            context->next_param = OFFSET_2;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[1], 1)) {
+                context->next_param = OFFSET_2;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case OFFSET_2:
-            context->next_param = OFFSET_3;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[0], 1)) {
+                context->next_param = OFFSET_3;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case OFFSET_3:
-            context->next_param = OFFSET_4;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[2], 1)) {
+                context->next_param = OFFSET_4;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case OFFSET_4:
-            context->next_param = WITHDRAWER;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[3], 1)) {
+                context->next_param = WITHDRAWER;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case WITHDRAWER:
@@ -337,7 +429,12 @@ static void handle_eigenlayer_queue_withdrawal(ethPluginProvideParameter_t *msg,
             break;
 
         case ARRAY_LEN_2:
-            context->next_param = STRATEGY;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[1], 1)) {
+                context->next_param = STRATEGY;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case STRATEGY:
@@ -346,7 +443,12 @@ static void handle_eigenlayer_queue_withdrawal(ethPluginProvideParameter_t *msg,
             break;
 
         case ARRAY_LEN_3:
-            context->next_param = SHARES;
+            if (compare_last_n_bytes(msg->parameter, &expected_bytes[1], 1)) {
+                context->next_param = SHARES;
+            } else {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+                context->next_param = UNEXPECTED_PARAMETER;
+            }
             break;
 
         case SHARES:

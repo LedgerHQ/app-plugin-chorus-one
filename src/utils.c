@@ -29,3 +29,14 @@ void display_first_and_last_bytes(ethQueryContractUI_t *msg,
         next_ptr += 2;
     }
 }
+
+bool compare_last_n_bytes(const uint8_t *parameter, const uint8_t *expected_bytes, size_t n) {
+    if (memcmp(parameter, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 32 - n) !=
+        0) {
+        return false;
+    }
+    if (memcmp(&parameter[32 - n], expected_bytes, n) != 0) {
+        return false;
+    }
+    return true;
+}

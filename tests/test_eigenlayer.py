@@ -38,6 +38,26 @@ def test_eigenlayer_delegate_to(ledger_utils):
     ledger_utils.send_tx_and_compare_snapshots(tx_params)
 
 
+def test_eigenlayer_delegate_to_different_length(ledger_utils):
+    operator = bytes.fromhex("0102030000000000000000000000000000030201")
+    signature_expiry = (
+        "0x01020322222222222222222222222222222222222222222222222222222222223333333333333333333333333333333333333333333333333333333333040506",
+        123456789,
+    )
+    approver_salt = "0xfffefdfffffffffffffffffffffffffffffffffffffffffffffffffffffcfbfa"
+
+    data = contract.encode_abi(
+        "delegateTo", [operator, signature_expiry, approver_salt]
+    )
+
+    ledger_utils.set_external_plugin(
+        contract.address,
+        data,
+    )
+    tx_params = get_default_tx_params(contract.address, data)
+    ledger_utils.send_tx_expect_error(tx_params)
+
+
 def test_eigenlayer_increase_delegated_shares_wallet_address(ledger_utils):
     receiver = ledger_utils.get()
     strategy = bytes.fromhex("0405060000000000000000000000000000070809")
