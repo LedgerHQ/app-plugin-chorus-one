@@ -63,7 +63,8 @@ extern const uint32_t SELECTORS[SELECTOR_COUNT];
 // Enumeration used to parse the smart contract data.
 // EDIT THIS: Adapt the parameter names here.
 typedef enum {
-    RECEIVER = 0,  // Address
+    // Stakewise
+    RECEIVER = 0,
     REFERRER,
     OS_TOKEN_SHARES,
     VAULT_SHARES,
@@ -71,7 +72,7 @@ typedef enum {
     TIMESTAMP,
     EXIT_QUEUE_INDEX,
     OWNER,
-    // EIGENLAYER
+    // Eigenlayer
     OPERATOR,
     OFFSET_1,
     OFFSET_2,
@@ -94,7 +95,7 @@ typedef enum {
     MIDDLEWARE_TIMES_INDEX,
     RECEIVE_AS_TOKENS,
     SHARES,
-    // Sybiotic
+    // Symbiotic
     DEADLINE,
     UNEXPECTED_PARAMETER,
 } parameter;
