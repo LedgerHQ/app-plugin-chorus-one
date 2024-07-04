@@ -1,4 +1,5 @@
 #include <eth_plugin_interface.h>
+#include "utils.h"
 
 const char HEX_CHARS[] = "0123456789ABCDEF";
 

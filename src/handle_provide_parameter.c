@@ -294,7 +294,7 @@ static void handle_eigenlayer_complete_queued_withdrawal(ethPluginProvideParamet
             break;
 
         case START_BLOCK:
-            copy_parameter(context->uint32_var, msg->parameter + 28, sizeof(context->uint32_var));
+            copy_parameter(context->os_token_shares, msg->parameter + 28, 4);
             context->next_param = OFFSET_3;
             break;
 

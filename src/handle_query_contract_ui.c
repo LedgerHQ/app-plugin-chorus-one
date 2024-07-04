@@ -264,8 +264,8 @@ static bool eigenlayer_complete_queued_withdrawal_ui(ethQueryContractUI_t *msg,
 
         case 4:
             strlcpy(msg->title, "Start Block", msg->titleLength);
-            amountToString(context->uint32_var,
-                           sizeof(context->uint32_var),
+            amountToString(context->os_token_shares,
+                           4,
                            0,
                            "",
                            msg->msg,
