@@ -73,6 +73,7 @@ add_compile_definitions(
 
 include_directories(
     ${BOLOS_SDK}/include
+    ${BOLOS_SDK}/lib_standard_app
     ${BOLOS_SDK}/lib_cxng/include
     ${BOLOS_SDK}/lib_cxng/src
     ${BOLOS_SDK}/target/nanox/include
@@ -91,10 +92,15 @@ add_executable(fuzz
     ${SRC_DIR}/handle_provide_token.c
     ${SRC_DIR}/handle_query_contract_ui.c
     ${SRC_DIR}/handle_query_contract_id.c
+    ${SRC_DIR}/utils.c
 
     # Ethereum SDK
     ${ETH_DIR}/src/common_utils.c
     ${ETH_DIR}/src/plugin_utils.c
+
+    # sdk utils
+    ${BOLOS_SDK}/src/ledger_assert.c
+    ${BOLOS_SDK}/lib_standard_app/format.c
 
     # cxng
     ${BOLOS_SDK}/lib_cxng/src/cx_hash.c

@@ -112,7 +112,6 @@ typedef struct context_s {
     uint8_t timestamp[INT256_LENGTH];
     uint8_t exit_queue_index[INT256_LENGTH];
 
-    uint8_t uint32_var[4];
     uint8_t bool_var;
 
     // For parsing data.
