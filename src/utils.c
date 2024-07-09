@@ -1,4 +1,5 @@
 #include <eth_plugin_interface.h>
+#include "utils.h"
 
 const char HEX_CHARS[] = "0123456789ABCDEF";
 
@@ -28,4 +29,15 @@ void display_first_and_last_bytes(ethQueryContractUI_t *msg,
         byte_to_hex(next_ptr, data[array_size - first_last_size + i]);
         next_ptr += 2;
     }
+}
+
+bool compare_last_n_bytes(const uint8_t *parameter, const uint8_t *expected_bytes, size_t n) {
+    if (memcmp(parameter, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 32 - n) !=
+        0) {
+        return false;
+    }
+    if (memcmp(&parameter[32 - n], expected_bytes, n) != 0) {
+        return false;
+    }
+    return true;
 }

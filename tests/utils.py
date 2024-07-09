@@ -6,6 +6,7 @@ from typing import Optional
 from web3 import Web3
 from ledger_app_clients.ethereum.utils import recover_transaction
 from ragger.navigator import NavInsID
+import ragger
 from eth_typing import ChainId
 from ledger_app_clients.ethereum.client import EthAppClient
 from ledger_app_clients.ethereum.utils import get_selector_from_data
@@ -63,27 +64,11 @@ def get_default_tx_params(contract, data):
     return tx_params
 
 
-def send_tx_and_compare_snapshots(client, navigator, wallet_addr, test_name, tx_params):
-    # send the transaction
-    with client.sign(DERIVATION_PATH, tx_params):
-        # Validate the on-screen request by performing the navigation appropriate for this device
-        navigator.navigate_until_text_and_compare(
-            NavInsID.RIGHT_CLICK,
-            [NavInsID.BOTH_CLICK],
-            "Accept",
-            ROOT_SCREENSHOT_PATH,
-            test_name,
-        )
-    # verify signature
-    vrs = ResponseParser.signature(client.response().data)
-    addr = recover_transaction(tx_params, vrs)
-    assert addr == wallet_addr.get()
-
-
 class LedgerUtils:
     client: EthAppClient
     test_name: str
     firmware: str
+    navigator: ragger.navigator.Navigator
 
     def __init__(self, backend, navigator, firmware, test_name):
         self.client = EthAppClient(backend)
@@ -104,6 +89,14 @@ class LedgerUtils:
             get_selector_from_data(data),
         )
 
+    def send_tx_expect_error(self, tx_params):
+        try:
+            with self.client.sign(DERIVATION_PATH, tx_params):
+                pass
+        except ragger.error.ExceptionRAPDU as e:
+            return
+        assert False
+
     def send_tx_and_compare_snapshots(self, tx_params):
         # send the transaction
         with self.client.sign(DERIVATION_PATH, tx_params):
@@ -123,7 +116,7 @@ class LedgerUtils:
                 end_text,
                 ROOT_SCREENSHOT_PATH,
                 self.test_name,
-                screen_change_after_last_instruction=False
+                screen_change_after_last_instruction=False,
             )
         # verify signature
         vrs = ResponseParser.signature(self.client.response().data)
