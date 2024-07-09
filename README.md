@@ -11,7 +11,7 @@ The implemented Smart Contracts and functions can be found in
 
 ## Testing
 
-For testing, we use the [Ragger](https://github.com/LedgerHQ/ragger) for
+For testing, we use [Ragger](https://github.com/LedgerHQ/ragger) for
 simulating a Ledger device, to run the tests, use the Ledger plugin on VSCode or
 run them with:
 
