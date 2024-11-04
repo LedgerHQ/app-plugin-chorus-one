@@ -16,7 +16,7 @@
 # ****************************************************************************
 
 # EDIT THIS: Application name
-APPNAME = "ChorusPlugin"
+APPNAME = "ChorusOne"
 
 # Application version
 APPVERSION_M = 1
