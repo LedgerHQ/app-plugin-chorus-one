@@ -67,14 +67,13 @@ def get_default_tx_params(contract, data):
 class LedgerUtils:
     client: EthAppClient
     test_name: str
-    firmware: str
     navigator: ragger.navigator.Navigator
 
-    def __init__(self, backend, navigator, firmware, test_name):
+    def __init__(self, backend, navigator, test_name):
         self.client = EthAppClient(backend)
         self.navigator = navigator
         self.test_name = test_name
-        self.firmware = firmware
+        self.backend = backend
 
     def get(self, path=DERIVATION_PATH) -> bytes:
         with self.client.get_public_addr(display=False, bip32_path=path):
@@ -101,8 +100,8 @@ class LedgerUtils:
         # send the transaction
         with self.client.sign(DERIVATION_PATH, tx_params):
             # Validate the on-screen request by performing the navigation appropriate for this device
-            if self.firmware.device.startswith("nano"):
-                end_text = "Accept"
+            if self.backend.device.is_nano:
+                end_text = "Sign transaction"
                 nav_inst = NavInsID.RIGHT_CLICK
                 valid_instr = [NavInsID.BOTH_CLICK]
             else:
