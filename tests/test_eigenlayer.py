@@ -2,6 +2,7 @@ import json
 import os
 
 from web3 import Web3
+from ledgered.devices import DeviceType
 
 from utils import (
     get_default_tx_params,
@@ -119,7 +120,7 @@ def test_eigenlayer_decrease_delegated_shares(ledger_utils):
 
 
 def test_eigenlayer_complete_queued_withdrawal_more_than_one_element(ledger_utils):
-    if ledger_utils.firmware.device.startswith("stax"):
+    if ledger_utils.backend.device == DeviceType.STAX:
         # This test is failing in stax when we try to show
         # 8 screens or more: see https://github.com/LedgerHQ/app-plugin-boilerplate/issues/152
         return
@@ -156,7 +157,7 @@ def test_eigenlayer_complete_queued_withdrawal_more_than_one_element(ledger_util
 
 
 def test_eigenlayer_complete_queued_withdrawal(ledger_utils):
-    if ledger_utils.firmware.device.startswith("stax"):
+    if ledger_utils.backend.device == DeviceType.STAX:
         # This test is failing in stax when we try to show
         # 8 screens or more: see https://github.com/LedgerHQ/app-plugin-boilerplate/issues/152
         return
