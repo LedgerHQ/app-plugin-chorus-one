@@ -8,8 +8,8 @@ static bool stakewise_deposit_ui(ethQueryContractUI_t *msg, const context_t *con
 
     switch (msg->screenIndex) {
         case 0:
-            eth_amount = msg->pluginSharedRO->txContent->value.value;
-            eth_amount_size = msg->pluginSharedRO->txContent->value.length;
+            eth_amount = msg->txContent->value.value;
+            eth_amount_size = msg->txContent->value.length;
             // Converts the uint256 number located in `eth_amount` to its string representation and
             // copies this to `msg->msg`.
             return amountToString(eth_amount,
